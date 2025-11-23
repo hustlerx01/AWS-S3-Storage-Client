@@ -13,6 +13,7 @@ import { CorsHelpModal } from '../modals/CorsHelpModal';
 import { Button } from '../ui/button';
 import { LayoutGrid, List as ListIcon, RefreshCw, Download, Trash2, Share2 } from 'lucide-react';
 
+import { UploadWidget } from './UploadWidget';
 import { s3Service } from '../../services/s3Client';
 import { toast } from 'sonner';
 
@@ -34,6 +35,7 @@ export const FileExplorer = () => {
 
     const [previewFile, setPreviewFile] = useState<string | null>(null);
     const [shareFiles, setShareFiles] = useState<string[]>([]);
+    const [uploadProgress, setUploadProgress] = useState<Array<{ fileName: string; progress: number; speed: string; eta: string }>>([]);
     const [renameFile, setRenameFile] = useState<string | null>(null);
     const [deleteFile, setDeleteFile] = useState<string | null>(null);
 

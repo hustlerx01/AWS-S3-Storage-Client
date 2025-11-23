@@ -1,52 +1,23 @@
-import { useCallback } from 'react';
-import { useDropzone } from 'react-dropzone';
-import { useFileStore } from '../../stores/useFileStore';
-import { s3Service } from '../../services/s3Client';
-import { toast } from 'sonner';
-import { UploadCloud } from 'lucide-react';
+return `${mb.toFixed(1)} MB/s`;
+    } else if (kb >= 1) {
+    return `${kb.toFixed(1)} KB/s`;
+} else {
+    return `${bytesPerSecond.toFixed(0)} B/s`;
+}
+}
 
-export const DropZone = () => {
-    const { currentPrefix, fetchFiles } = useFileStore();
+function formatTime(seconds: number): string {
+    if (seconds < 1) return '< 1s';
+    if (seconds < 60) return `${Math.round(seconds)}s`;
 
-    const onDrop = useCallback(async (acceptedFiles: File[]) => {
-        if (acceptedFiles.length === 0) return;
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = Math.round(seconds % 60);
 
-        const uploadPromises = acceptedFiles.map(async (file) => {
-            try {
-                toast.loading(`Uploading ${file.name}...`, { id: file.name });
-                await s3Service.uploadFile(file, currentPrefix, () => {
-                    // Progress handling could be added here
-                });
-                toast.success(`Uploaded ${file.name}`, { id: file.name });
-            } catch (error) {
-                console.error(error);
-                toast.error(`Failed to upload ${file.name}`, { id: file.name });
-            }
-        });
+    if (minutes < 60) {
+        return remainingSeconds > 0 ? `${minutes}m ${remainingSeconds}s` : `${minutes}m`;
+    }
 
-        await Promise.all(uploadPromises);
-        fetchFiles();
-    }, [currentPrefix, fetchFiles]);
-
-    const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
-
-    return (
-        <div
-            {...getRootProps()}
-            className={`border border-dashed rounded-xl flex flex-row items-center justify-center px-6 transition-all duration-300 ease-in-out w-full h-20 active:scale-95
-                ${isDragActive
-                    ? 'border-orange-500 bg-orange-500/10 scale-[1.02]'
-                    : 'border-zinc-800 bg-transparent opacity-70 hover:border-orange-500 hover:bg-orange-500/5 hover:opacity-100'
-                }
-            `}
-        >
-            <input {...getInputProps()} />
-            <div className="flex flex-row items-center gap-3">
-                <UploadCloud className={`w-6 h-6 transition-colors ${isDragActive ? 'text-orange-500' : 'text-zinc-400'}`} />
-                <p className="text-sm font-medium text-zinc-300">
-                    {isDragActive ? 'Drop files now' : 'Drop files here or click to upload'}
-                </p>
-            </div>
-        </div>
-    );
-};
+    const hours = Math.floor(minutes / 60);
+    const remainingMinutes = minutes % 60;
+    return `${hours}h ${remainingMinutes}m`;
+}

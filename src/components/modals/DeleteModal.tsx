@@ -42,7 +42,14 @@ export const DeleteModal = ({ isOpen, onClose, fileKey }: DeleteModalProps) => {
                     </DialogDescription>
                 </DialogHeader>
                 <DialogFooter>
-                    <Button variant="outline" onClick={onClose} disabled={isLoading}>Cancel</Button>
+                    <Button
+                        variant="ghost"
+                        onClick={onClose}
+                        disabled={isLoading}
+                        className="bg-transparent text-zinc-400 border border-zinc-700 hover:bg-zinc-800 hover:text-white hover:border-zinc-600"
+                    >
+                        Cancel
+                    </Button>
                     <Button variant="destructive" onClick={handleDelete} disabled={isLoading}>
                         {isLoading ? "Deleting..." : "Delete"}
                     </Button>

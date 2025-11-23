@@ -95,10 +95,13 @@ export const ShareModal = ({ isOpen, onClose, fileKeys }: ShareModalProps) => {
                             ].map((opt) => (
                                 <Button
                                     key={opt.value}
-                                    variant={duration === opt.value ? "default" : "outline"}
+                                    variant={duration === opt.value ? "default" : "ghost"}
                                     size="sm"
                                     onClick={() => setDuration(opt.value)}
-                                    className={duration === opt.value ? "bg-orange-500 hover:bg-orange-600" : ""}
+                                    className={duration === opt.value
+                                        ? "bg-orange-500 hover:bg-orange-600 text-white"
+                                        : "bg-transparent text-zinc-400 border border-zinc-700 hover:bg-zinc-800 hover:text-white hover:border-orange-500"
+                                    }
                                 >
                                     {opt.label}
                                 </Button>
