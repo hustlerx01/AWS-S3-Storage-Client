@@ -34,7 +34,6 @@ export const FileExplorer = () => {
 
     const [previewFile, setPreviewFile] = useState<string | null>(null);
     const [shareFiles, setShareFiles] = useState<string[]>([]);
-    const [uploadProgress, setUploadProgress] = useState<Array<{ fileName: string; progress: number; speed: string; eta: string }>>([]);
     const [renameFile, setRenameFile] = useState<string | null>(null);
     const [deleteFile, setDeleteFile] = useState<string | null>(null);
 
