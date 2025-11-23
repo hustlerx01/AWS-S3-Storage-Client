@@ -20,8 +20,6 @@ interface FileGridProps {
     onDownload: (key: string) => void;
 }
 
-
-
 const FileThumbnail = ({ fileKey, fileName }: { fileKey: string, fileName: string }) => {
     const [url, setUrl] = useState<string | null>(null);
 
@@ -86,6 +84,19 @@ export const FileGrid = ({ files, folders, onPreview, onShare, onRename, onDelet
 
             {files.map((file) => {
                 const fileName = file.key.replace(currentPrefix, '');
+                const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(fileName);
+                const isSelected = selectedFiles.has(file.key);
+
+                return (
+                    <Card
+                        key={file.key}
+                        className={`group relative overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-lg bg-zinc-900 border border-zinc-800 rounded-xl active:scale-95 ${isSelected ? 'ring-2 ring-orange-500 border-orange-500 bg-zinc-800' : 'hover:border-orange-500 hover:shadow-orange-500/10'
+                            }`}
+                        onClick={() => toggleSelection(file.key)}
+                    >
+                        <div className="absolute top-2 left-2 z-10">
+                            <Checkbox
+                                checked={isSelected}
                                 onCheckedChange={() => toggleSelection(file.key)}
                                 onClick={(e) => e.stopPropagation()}
                             />
@@ -135,9 +146,9 @@ export const FileGrid = ({ files, folders, onPreview, onShare, onRename, onDelet
                                 </DropdownMenuContent>
                             </DropdownMenu>
                         </CardFooter>
-                    </Card >
+                    </Card>
                 );
             })}
-        </div >
+        </div>
     );
 };
