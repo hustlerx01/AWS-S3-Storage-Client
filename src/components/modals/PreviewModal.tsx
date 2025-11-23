@@ -81,6 +81,10 @@ export const PreviewModal = ({ isOpen, onClose, fileKey }: PreviewModalProps) =>
         loadPreview();
     }, [isOpen, fileKey]);
 
+    useEffect(() => {
+        if (url) console.log("Preview URL generated:", url);
+    }, [url]);
+
     const handleDownload = async () => {
         if (!fileKey || !url) return;
 
@@ -180,6 +184,7 @@ export const PreviewModal = ({ isOpen, onClose, fileKey }: PreviewModalProps) =>
                                     src={url}
                                     className="w-full h-full border-none"
                                     title="PDF Preview"
+                                    sandbox="allow-scripts allow-same-origin"
                                 />
                             )}
 

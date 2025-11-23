@@ -162,10 +162,12 @@ export const s3Service = {
         if (!credentials) throw new Error("No credentials");
 
         const client = getClient(credentials);
+        const filename = key.split('/').pop() || 'file';
+
         const command = new GetObjectCommand({
             Bucket: credentials.bucketName,
             Key: key,
-            ResponseContentDisposition: 'inline',
+            ResponseContentDisposition: `inline; filename="${filename}"`,
             ...(contentType && { ResponseContentType: contentType }),
         });
 
