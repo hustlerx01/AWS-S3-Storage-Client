@@ -77,7 +77,7 @@ export const FileGrid = ({ files, folders, onPreview, onShare, onRename, onDelet
                 return (
                     <Card
                         key={folder}
-                        className="hover:bg-accent/50 cursor-pointer transition-all duration-200 border-border/60 hover:border-primary/50 hover:shadow-sm group"
+                        className="bg-zinc-900 hover:bg-zinc-800/80 cursor-pointer transition-all duration-200 border-zinc-800 hover:border-orange-500/50 hover:shadow-sm group"
                         onClick={() => handleFolderClick(folder)}
                     >
                         <CardContent className="flex flex-col items-center justify-center p-6 gap-3">
@@ -100,7 +100,7 @@ export const FileGrid = ({ files, folders, onPreview, onShare, onRename, onDelet
                 return (
                     <Card
                         key={file.key}
-                        className={`group relative overflow-hidden cursor-pointer transition-all duration-200 hover:shadow-md ${isSelected ? 'ring-2 ring-primary border-primary bg-primary/5' : 'border-border/60 hover:border-primary/50'
+                        className={`group relative overflow-hidden cursor-pointer transition-all duration-200 hover:shadow-md bg-zinc-900 border-zinc-800 ${isSelected ? 'ring-2 ring-orange-500 border-orange-500 bg-orange-500/5' : 'hover:border-orange-500/50 hover:bg-zinc-800/80'
                             }`}
                         onClick={() => toggleSelection(file.key)}
                     >
@@ -121,12 +121,12 @@ export const FileGrid = ({ files, folders, onPreview, onShare, onRename, onDelet
                                 </div>
                             )}
                         </CardContent>
-                        <CardFooter className="p-3 flex justify-between items-center bg-card border-t">
+                        <CardFooter className="p-3 flex justify-between items-center bg-card border-t border-zinc-800">
                             <div className="flex flex-col overflow-hidden">
-                                <span className="text-sm font-medium truncate w-24 text-foreground/90" title={fileName}>
+                                <span className="text-sm font-medium truncate w-24 text-zinc-100" title={fileName}>
                                     {sanitize(fileName)}
                                 </span>
-                                <span className="text-xs text-muted-foreground">
+                                <span className="text-xs text-zinc-400">
                                     {formatBytes(file.size)}
                                 </span>
                             </div>
@@ -134,7 +134,7 @@ export const FileGrid = ({ files, folders, onPreview, onShare, onRename, onDelet
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
                                     <Button variant="ghost" size="icon" className="h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity" onClick={(e) => e.stopPropagation()}>
-                                        <MoreVertical className="w-4 h-4" />
+                                        <MoreVertical className="w-4 h-4 text-zinc-400" />
                                     </Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
@@ -159,6 +159,6 @@ export const FileGrid = ({ files, folders, onPreview, onShare, onRename, onDelet
                     </Card>
                 );
             })}
-        </div>
+        </div >
     );
 };

@@ -33,10 +33,10 @@ export const DropZone = () => {
     return (
         <div
             {...getRootProps()}
-            className={`border-2 border-dashed rounded-lg p-10 text-center cursor-pointer transition-all duration-300
+            className={`border-2 border-dashed rounded-xl flex flex-col items-center justify-center transition-all duration-300 w-full h-48
                 ${isDragActive
-                    ? 'border-orange-500 bg-orange-500/10 scale-[1.01]'
-                    : 'border-zinc-700 bg-zinc-900/50 hover:border-orange-500/50 hover:bg-zinc-900/80'
+                    ? 'border-orange-500 bg-orange-500/5 scale-[1.01]'
+                    : 'border-zinc-700 hover:border-orange-500 hover:bg-orange-500/5'
                 }
             `}
         >
@@ -49,7 +49,7 @@ export const DropZone = () => {
                     <p className="text-lg font-medium text-zinc-200">
                         {isDragActive ? 'Drop files now' : 'Drop files here or click to upload'}
                     </p>
-                    <p className="text-sm text-zinc-500">
+                    <p className="text-sm text-zinc-400">
                         Support for images, videos, audio, and documents
                     </p>
                 </div>

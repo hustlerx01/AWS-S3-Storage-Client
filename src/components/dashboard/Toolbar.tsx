@@ -4,6 +4,7 @@ import { Input } from '../ui/input';
 import { useFileStore } from '../../stores/useFileStore';
 import { useState } from 'react';
 import { NewFolderModal } from '../modals/NewFolderModal';
+import { Breadcrumbs } from './Breadcrumbs';
 
 export const Toolbar = () => {
     const {
@@ -16,15 +17,29 @@ export const Toolbar = () => {
     const [isNewFolderOpen, setIsNewFolderOpen] = useState(false);
 
     return (
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between p-4 bg-zinc-900/50 border border-zinc-800 rounded-lg backdrop-blur-sm">
-            <div className="flex items-center gap-4 flex-1">
-                <div className="relative w-full md:w-72">
+        <div className="flex flex-col gap-4 p-4 bg-zinc-900/50 border border-zinc-800 rounded-lg backdrop-blur-sm">
+            <div className="flex items-center justify-between">
+                <Breadcrumbs />
+                <div className="flex items-center gap-2">
+                    <Button
+                        variant="outline"
+                        onClick={() => setIsNewFolderOpen(true)}
+                        className="border-zinc-700 bg-transparent text-zinc-300 hover:bg-zinc-800 hover:text-orange-500 hover:border-orange-500/50 h-9"
+                    >
+                        <FolderPlus className="w-4 h-4 mr-2 text-orange-500" />
+                        New Folder
+                    </Button>
+                </div>
+            </div>
+
+            <div className="flex items-center gap-4">
+                <div className="relative flex-1">
                     <Search className="absolute left-3 top-2.5 h-4 w-4 text-zinc-500" />
                     <Input
                         placeholder="Search files..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="pl-9 bg-zinc-800 border-none text-zinc-200 placeholder:text-zinc-500 focus-visible:ring-orange-500/50"
+                        className="pl-9 bg-zinc-900 border-zinc-800 text-zinc-200 placeholder:text-zinc-500 focus-visible:ring-orange-500/50"
                     />
                 </div>
 

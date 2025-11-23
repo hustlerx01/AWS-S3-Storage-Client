@@ -4,7 +4,6 @@ import { FileGrid } from './FileGrid';
 import { FileList } from './FileList';
 import { Toolbar } from './Toolbar';
 import { ActionBar } from './ActionBar';
-import { Breadcrumbs } from './Breadcrumbs';
 import { DropZone } from './DropZone';
 import { PreviewModal } from '../modals/PreviewModal';
 import { ShareModal } from '../modals/ShareModal';
@@ -75,7 +74,6 @@ export const FileExplorer = () => {
     return (
         <div className="max-w-7xl mx-auto px-4 py-8 space-y-6">
             <div className="flex flex-col gap-6">
-                <Breadcrumbs />
                 <Toolbar />
                 <DropZone />
             </div>
