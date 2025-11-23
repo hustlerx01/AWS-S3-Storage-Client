@@ -99,6 +99,10 @@ export const s3Service = {
         }));
     },
 
+    deleteFile: async (key: string) => {
+        return s3Service.deleteFiles([key]);
+    },
+
     downloadFiles: async (keys: string[]) => {
         const { credentials } = useAuthStore.getState();
         if (!credentials) throw new Error("No credentials");

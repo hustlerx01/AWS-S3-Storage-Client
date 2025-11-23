@@ -10,6 +10,11 @@ export interface S3File {
 
 interface FileState {
     currentPrefix: string;
+    files: S3File[];
+    folders: string[];
+    isLoading: boolean;
+    error: string | null;
+    viewMode: 'grid' | 'list';
     selectedFiles: Set<string>;
     searchQuery: string;
     filterType: 'all' | 'image' | 'video' | 'audio' | 'doc' | 'other';
