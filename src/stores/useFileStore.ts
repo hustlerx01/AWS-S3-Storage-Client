@@ -10,16 +10,17 @@ export interface S3File {
 
 interface FileState {
     currentPrefix: string;
-    files: S3File[];
-    folders: string[];
-    isLoading: boolean;
-    error: string | null;
-    viewMode: 'grid' | 'list';
-    filterType: 'all' | 'image' | 'video' | 'doc' | 'code';
+    selectedFiles: Set<string>;
+    searchQuery: string;
+    filterType: 'all' | 'image' | 'video' | 'audio' | 'doc' | 'other';
 
     setPrefix: (prefix: string) => void;
     setViewMode: (mode: 'grid' | 'list') => void;
-    setFilterType: (type: 'all' | 'image' | 'video' | 'doc' | 'code') => void;
+    setFilterType: (type: 'all' | 'image' | 'video' | 'audio' | 'doc' | 'other') => void;
+    setSearchQuery: (query: string) => void;
+    toggleSelection: (key: string) => void;
+    selectAll: (keys: string[]) => void;
+    clearSelection: () => void;
     fetchFiles: () => Promise<void>;
     clearError: () => void;
 }
@@ -32,14 +33,39 @@ export const useFileStore = create<FileState>((set, get) => ({
     error: null,
     viewMode: 'grid',
     filterType: 'all',
+    selectedFiles: new Set(),
+    searchQuery: '',
 
     setPrefix: (prefix) => {
-        set({ currentPrefix: prefix });
+        set({ currentPrefix: prefix, selectedFiles: new Set() });
         get().fetchFiles();
     },
 
     setViewMode: (mode) => set({ viewMode: mode }),
     setFilterType: (type) => set({ filterType: type }),
+    setSearchQuery: (query) => set({ searchQuery: query }),
+
+    toggleSelection: (key) => {
+        set((state) => {
+            const newSelection = new Set(state.selectedFiles);
+            if (newSelection.has(key)) {
+                newSelection.delete(key);
+            } else {
+                newSelection.add(key);
+            }
+            return { selectedFiles: newSelection };
+        });
+    },
+
+    selectAll: (keys) => {
+        set((state) => {
+            const newSelection = new Set(state.selectedFiles);
+            keys.forEach(key => newSelection.add(key));
+            return { selectedFiles: newSelection };
+        });
+    },
+
+    clearSelection: () => set({ selectedFiles: new Set() }),
     clearError: () => set({ error: null }),
 
     fetchFiles: async () => {
