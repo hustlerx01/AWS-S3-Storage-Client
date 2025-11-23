@@ -13,7 +13,6 @@ import { CorsHelpModal } from '../modals/CorsHelpModal';
 import { Button } from '../ui/button';
 import { LayoutGrid, List as ListIcon, RefreshCw, Download, Trash2, Share2 } from 'lucide-react';
 
-import { UploadWidget } from './UploadWidget';
 import { s3Service } from '../../services/s3Client';
 import { toast } from 'sonner';
 
