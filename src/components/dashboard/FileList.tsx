@@ -1,10 +1,8 @@
 import { type S3File, useFileStore } from '../../stores/useFileStore';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
-import { FileIcon, FolderIcon, MoreVertical, Download, Trash2, Copy, Share2, FileText, FileType2, Sheet, Video, Music, Archive } from 'lucide-react';
-import { Button } from '../ui/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
-import { formatBytes } from '../../lib/utils';
+import { FolderIcon } from 'lucide-react';
 import DOMPurify from 'dompurify';
+import { FileRow } from './FileRow';
 
 interface FileListProps {
     files: S3File[];
@@ -16,17 +14,6 @@ interface FileListProps {
     onDownload: (key: string) => void;
 }
 
-const getFileIcon = (fileName: string) => {
-    const ext = fileName.split('.').pop()?.toLowerCase();
-    if (['pdf'].includes(ext || '')) return <FileText className="w-4 h-4 text-red-500" />;
-    if (['doc', 'docx'].includes(ext || '')) return <FileType2 className="w-4 h-4 text-blue-500" />;
-    if (['xls', 'xlsx', 'csv'].includes(ext || '')) return <Sheet className="w-4 h-4 text-green-500" />;
-    if (['mp4', 'webm', 'mov', 'avi'].includes(ext || '')) return <Video className="w-4 h-4 text-purple-500" />;
-    if (['mp3', 'wav', 'ogg'].includes(ext || '')) return <Music className="w-4 h-4 text-yellow-500" />;
-    if (['zip', 'rar', '7z', 'tar', 'gz'].includes(ext || '')) return <Archive className="w-4 h-4 text-orange-500" />;
-    return <FileIcon className="w-4 h-4 text-muted-foreground" />;
-};
-
 export const FileList = ({ files, folders, onPreview, onShare, onRename, onDelete, onDownload }: FileListProps) => {
     const { setPrefix, currentPrefix } = useFileStore();
 
@@ -37,14 +24,14 @@ export const FileList = ({ files, folders, onPreview, onShare, onRename, onDelet
     const sanitize = (name: string) => DOMPurify.sanitize(name);
 
     return (
-        <div className="border rounded-md">
+        <div className="border border-zinc-800 rounded-lg overflow-hidden bg-zinc-900/30">
             <Table>
-                <TableHeader>
-                    <TableRow>
-                        <TableHead className="w-[50%]">Name</TableHead>
-                        <TableHead>Size</TableHead>
-                        <TableHead>Last Modified</TableHead>
-                        <TableHead className="w-[50px]"></TableHead>
+                <TableHeader className="bg-zinc-900/50">
+                    <TableRow className="border-zinc-800 hover:bg-transparent">
+                        <TableHead className="w-[40%] text-zinc-400">Name</TableHead>
+                        <TableHead className="w-[20%] text-zinc-400">Type</TableHead>
+                        <TableHead className="w-[15%] text-zinc-400">Size</TableHead>
+                        <TableHead className="text-right text-zinc-400">Actions</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -53,63 +40,34 @@ export const FileList = ({ files, folders, onPreview, onShare, onRename, onDelet
                         return (
                             <TableRow
                                 key={folder}
-                                className="cursor-pointer hover:bg-accent/50"
+                                className="cursor-pointer hover:bg-zinc-900/50 border-zinc-800 transition-colors"
                                 onClick={() => handleFolderClick(folder)}
                             >
-                                <TableCell className="font-medium flex items-center gap-2">
-                                    <FolderIcon className="w-4 h-4 text-blue-400 fill-blue-400/20" />
-                                    {sanitize(relativeName)}
+                                <TableCell className="font-medium flex items-center gap-3">
+                                    <div className="p-2 bg-blue-500/10 rounded-lg">
+                                        <FolderIcon className="w-5 h-5 text-blue-500 fill-blue-500/20" />
+                                    </div>
+                                    <span className="text-zinc-200">{sanitize(relativeName)}</span>
                                 </TableCell>
-                                <TableCell>-</TableCell>
-                                <TableCell>-</TableCell>
+                                <TableCell className="text-zinc-500">Folder</TableCell>
+                                <TableCell className="text-zinc-500">-</TableCell>
                                 <TableCell></TableCell>
                             </TableRow>
                         );
                     })}
 
-                    {files.map((file) => {
-                        const fileName = file.key.replace(currentPrefix, '');
-                        return (
-                            <TableRow
-                                key={file.key}
-                                className="cursor-pointer hover:bg-accent/50"
-                                onClick={() => onPreview(file.key)}
-                            >
-                                <TableCell className="flex items-center gap-2">
-                                    {getFileIcon(fileName)}
-                                    {sanitize(fileName)}
-                                </TableCell>
-                                <TableCell>{formatBytes(file.size)}</TableCell>
-                                <TableCell>{file.lastModified.toLocaleDateString()}</TableCell>
-                                <TableCell>
-                                    <DropdownMenu>
-                                        <DropdownMenuTrigger asChild>
-                                            <Button variant="ghost" size="icon" className="h-8 w-8" onClick={(e) => e.stopPropagation()}>
-                                                <MoreVertical className="w-4 h-4" />
-                                            </Button>
-                                        </DropdownMenuTrigger>
-                                        <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
-                                            <DropdownMenuItem onClick={() => onDownload(file.key)}>
-                                                <Download className="w-4 h-4 mr-2" /> Download
-                                            </DropdownMenuItem>
-                                            <DropdownMenuItem onClick={() => onShare(file.key)}>
-                                                <Share2 className="w-4 h-4 mr-2" /> Share Link
-                                            </DropdownMenuItem>
-                                            <DropdownMenuItem onClick={() => onRename(file.key)}>
-                                                <Copy className="w-4 h-4 mr-2" /> Rename
-                                            </DropdownMenuItem>
-                                            <DropdownMenuItem
-                                                className="text-destructive focus:text-destructive"
-                                                onClick={() => onDelete(file.key)}
-                                            >
-                                                <Trash2 className="w-4 h-4 mr-2" /> Delete
-                                            </DropdownMenuItem>
-                                        </DropdownMenuContent>
-                                    </DropdownMenu>
-                                </TableCell>
-                            </TableRow>
-                        );
-                    })}
+                    {files.map((file) => (
+                        <FileRow
+                            key={file.key}
+                            file={file}
+                            currentPrefix={currentPrefix}
+                            onPreview={onPreview}
+                            onShare={onShare}
+                            onRename={onRename}
+                            onDelete={onDelete}
+                            onDownload={onDownload}
+                        />
+                    ))}
                 </TableBody>
             </Table>
         </div>

@@ -5,15 +5,15 @@ import { FileList } from './FileList';
 import { Toolbar } from './Toolbar';
 import { ActionBar } from './ActionBar';
 import { Breadcrumbs } from './Breadcrumbs';
-import { UploadZone } from './UploadZone';
+import { DropZone } from './DropZone';
 import { PreviewModal } from '../modals/PreviewModal';
 import { ShareModal } from '../modals/ShareModal';
 import { RenameModal } from '../modals/RenameModal';
 import { DeleteModal } from '../modals/DeleteModal';
 import { CorsHelpModal } from '../modals/CorsHelpModal';
 import { Button } from '../ui/button';
-import { LayoutGrid, List as ListIcon, RefreshCw, Upload as UploadIcon } from 'lucide-react';
-import { Dialog, DialogContent, DialogTrigger } from '../ui/dialog';
+import { LayoutGrid, List as ListIcon, RefreshCw } from 'lucide-react';
+
 import { s3Service } from '../../services/s3Client';
 import { toast } from 'sonner';
 
@@ -36,7 +36,7 @@ export const FileExplorer = () => {
     const [shareFile, setShareFile] = useState<string | null>(null);
     const [renameFile, setRenameFile] = useState<string | null>(null);
     const [deleteFile, setDeleteFile] = useState<string | null>(null);
-    const [showUpload, setShowUpload] = useState(false);
+
 
     useEffect(() => {
         fetchFiles();
@@ -74,21 +74,23 @@ export const FileExplorer = () => {
 
     return (
         <div className="max-w-7xl mx-auto px-4 py-8 space-y-6">
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-6">
                 <Breadcrumbs />
                 <Toolbar />
+                <DropZone />
             </div>
 
             <div className="flex justify-between items-center">
                 <div className="flex items-center gap-2">
-                    <Button variant="outline" size="icon" onClick={() => fetchFiles()} disabled={isLoading}>
+                    <Button variant="outline" size="icon" onClick={() => fetchFiles()} disabled={isLoading} className="border-zinc-700 bg-zinc-900/50 hover:bg-zinc-800 text-zinc-400 hover:text-orange-500">
                         <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
                     </Button>
-                    <div className="border-l h-6 mx-1" />
+                    <div className="border-l border-zinc-800 h-6 mx-1" />
                     <Button
                         variant={viewMode === 'grid' ? 'secondary' : 'ghost'}
                         size="icon"
                         onClick={() => setViewMode('grid')}
+                        className={viewMode === 'grid' ? 'bg-orange-500/10 text-orange-500 hover:bg-orange-500/20' : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800'}
                     >
                         <LayoutGrid className="w-4 h-4" />
                     </Button>
@@ -96,22 +98,11 @@ export const FileExplorer = () => {
                         variant={viewMode === 'list' ? 'secondary' : 'ghost'}
                         size="icon"
                         onClick={() => setViewMode('list')}
+                        className={viewMode === 'list' ? 'bg-orange-500/10 text-orange-500 hover:bg-orange-500/20' : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800'}
                     >
                         <ListIcon className="w-4 h-4" />
                     </Button>
                 </div>
-
-                <Dialog open={showUpload} onOpenChange={setShowUpload}>
-                    <DialogTrigger asChild>
-                        <Button>
-                            <UploadIcon className="w-4 h-4 mr-2" />
-                            Upload
-                        </Button>
-                    </DialogTrigger>
-                    <DialogContent className="sm:max-w-md">
-                        <UploadZone />
-                    </DialogContent>
-                </Dialog>
             </div>
 
             <div className="min-h-[400px] border rounded-lg p-6 bg-card/50 backdrop-blur-sm relative shadow-sm">
@@ -146,7 +137,6 @@ export const FileExplorer = () => {
                         {!isLoading && filteredFiles.length === 0 && folders.length === 0 && (
                             <div className="flex flex-col items-center justify-center h-64 text-muted-foreground">
                                 <p>This folder is empty.</p>
-                                <Button variant="link" onClick={() => setShowUpload(true)}>Upload a file</Button>
                             </div>
                         )}
                     </>
