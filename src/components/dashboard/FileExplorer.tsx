@@ -16,7 +16,7 @@ import { LayoutGrid, List as ListIcon, RefreshCw, Download, Trash2, Share2 } fro
 
 import { s3Service } from '../../services/s3Client';
 import { toast } from 'sonner';
-import { S3File } from '../../stores/useFileStore';
+
 
 interface UploadState {
     fileName: string;
@@ -150,9 +150,7 @@ export const FileExplorer = () => {
         }
     };
 
-    const handlePreview = (file: string) => {
-        setPreviewFile(file);
-    };
+
 
     const handleView = async (key: string) => {
         try {
@@ -230,7 +228,7 @@ export const FileExplorer = () => {
                                 onDelete={setDeleteFile}
                                 onDownload={handleDownload}
                                 onFolderClick={(folder) => {
-                                    useFileStore.getState().setCurrentPrefix(folder);
+                                    useFileStore.getState().setPrefix(folder);
                                 }}
                                 currentPrefix={currentPrefix}
                             />
@@ -245,7 +243,7 @@ export const FileExplorer = () => {
                                 onDelete={setDeleteFile}
                                 onDownload={handleDownload}
                                 onFolderClick={(folder) => {
-                                    useFileStore.getState().setCurrentPrefix(folder);
+                                    useFileStore.getState().setPrefix(folder);
                                 }}
                                 currentPrefix={currentPrefix}
                             />
