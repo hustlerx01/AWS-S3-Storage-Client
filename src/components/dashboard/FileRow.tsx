@@ -1,6 +1,6 @@
 import { type S3File, useFileStore } from '../../stores/useFileStore';
 import { TableCell, TableRow } from '../ui/table';
-import { Eye, Download, Share2, Edit2, Trash2, ExternalLink } from 'lucide-react';
+import { Download, Share2, Edit2, Trash2, ExternalLink } from 'lucide-react';
 import { FileIcon } from '../ui/FileIcon';
 import { Checkbox } from '../ui/checkbox';
 import { Button } from '../ui/button';
@@ -11,7 +11,6 @@ import { Badge } from '../ui/badge';
 interface FileRowProps {
     file: S3File;
     currentPrefix: string;
-    onPreview: (key: string) => void;
     onView: (key: string) => void;
     onShare: (key: string) => void;
     onRename: (key: string) => void;
@@ -31,7 +30,7 @@ const getFileType = (fileName: string) => {
     return { type: 'File', color: 'bg-zinc-800 text-zinc-400 border-zinc-700' };
 };
 
-export const FileRow = ({ file, currentPrefix, onPreview, onView, onShare, onRename, onDelete, onDownload }: FileRowProps) => {
+export const FileRow = ({ file, currentPrefix, onView, onShare, onRename, onDelete, onDownload }: FileRowProps) => {
     const { selectedFiles, toggleSelection } = useFileStore();
     const fileName = file.key.replace(currentPrefix, '');
     const sanitize = (name: string) => DOMPurify.sanitize(name);
@@ -66,9 +65,6 @@ export const FileRow = ({ file, currentPrefix, onPreview, onView, onShare, onRen
                 <div className="flex items-center justify-end gap-1">
                     <Button variant="ghost" size="icon" className="h-8 w-8 text-zinc-500 hover:text-blue-400 hover:bg-blue-400/10 active:scale-95 transition-all duration-100" onClick={() => onView(file.key)} title="View in New Tab">
                         <ExternalLink className="w-4 h-4" />
-                    </Button>
-                    <Button variant="ghost" size="icon" className="h-8 w-8 text-zinc-500 hover:text-blue-400 hover:bg-blue-400/10 active:scale-95 transition-all duration-100" onClick={() => onPreview(file.key)} title="Preview">
-                        <Eye className="w-4 h-4" />
                     </Button>
                     <Button variant="ghost" size="icon" className="h-8 w-8 text-zinc-500 hover:text-green-400 hover:bg-green-400/10 active:scale-95 transition-all duration-100" onClick={() => onDownload(file.key)} title="Download">
                         <Download className="w-4 h-4" />

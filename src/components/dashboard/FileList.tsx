@@ -8,7 +8,6 @@ import { Checkbox } from '../ui/checkbox';
 interface FileListProps {
     files: S3File[];
     folders: string[];
-    onPreview: (key: string) => void;
     onView: (key: string) => void;
     onShare: (key: string) => void;
     onRename: (key: string) => void;
@@ -18,7 +17,7 @@ interface FileListProps {
     currentPrefix: string;
 }
 
-export const FileList = ({ files, folders, onPreview, onView, onShare, onRename, onDelete, onDownload, onFolderClick, currentPrefix }: FileListProps) => {
+export const FileList = ({ files, folders, onView, onShare, onRename, onDelete, onDownload, onFolderClick, currentPrefix }: FileListProps) => {
     const { selectedFiles, selectAll, clearSelection } = useFileStore();
 
     const handleFolderClick = (folder: string) => {
@@ -76,7 +75,6 @@ export const FileList = ({ files, folders, onPreview, onView, onShare, onRename,
                             key={file.key}
                             file={file}
                             currentPrefix={currentPrefix}
-                            onPreview={onPreview}
                             onView={onView}
                             onShare={onShare}
                             onRename={onRename}

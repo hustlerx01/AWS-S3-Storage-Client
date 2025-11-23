@@ -5,7 +5,6 @@ import { FileList } from './FileList';
 import { Toolbar } from './Toolbar';
 import { ActionBar } from './ActionBar';
 import { DropZone } from './DropZone';
-import { PreviewModal } from '../modals/PreviewModal';
 import { ShareModal } from '../modals/ShareModal';
 import { RenameModal } from '../modals/RenameModal';
 import { DeleteModal } from '../modals/DeleteModal';
@@ -44,7 +43,6 @@ export const FileExplorer = () => {
         selectedFiles
     } = useFileStore();
 
-    const [previewFile, setPreviewFile] = useState<string | null>(null);
     const [shareFiles, setShareFiles] = useState<string[]>([]);
     const [renameFile, setRenameFile] = useState<string | null>(null);
     const [deleteFile, setDeleteFile] = useState<string | null>(null);
@@ -221,7 +219,6 @@ export const FileExplorer = () => {
                             <FileGrid
                                 files={filteredFiles}
                                 folders={folders}
-                                onPreview={setPreviewFile}
                                 onView={handleView}
                                 onShare={(key) => setShareFiles([key])}
                                 onRename={setRenameFile}
@@ -236,7 +233,6 @@ export const FileExplorer = () => {
                             <FileList
                                 files={filteredFiles}
                                 folders={folders}
-                                onPreview={setPreviewFile}
                                 onView={handleView}
                                 onShare={(key) => setShareFiles([key])}
                                 onRename={setRenameFile}
@@ -289,11 +285,6 @@ export const FileExplorer = () => {
 
             <ActionBar />
 
-            <PreviewModal
-                isOpen={!!previewFile}
-                fileKey={previewFile}
-                onClose={() => setPreviewFile(null)}
-            />
             <ShareModal
                 isOpen={shareFiles.length > 0}
                 fileKeys={shareFiles}
