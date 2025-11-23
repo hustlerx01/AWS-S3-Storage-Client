@@ -104,7 +104,7 @@ export const FileExplorer = () => {
                 </div>
             </div>
 
-            <div className="min-h-[400px] border rounded-lg p-6 bg-card/50 backdrop-blur-sm relative shadow-sm">
+            <div className="min-h-[400px] bg-transparent relative">
                 {isLoading ? (
                     <div className="flex justify-center items-center h-64">
                         <RefreshCw className="w-8 h-8 animate-spin text-primary" />

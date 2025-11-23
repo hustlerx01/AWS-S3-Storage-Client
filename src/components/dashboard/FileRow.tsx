@@ -30,8 +30,6 @@ const getFileType = (fileName: string) => {
     return { type: 'File', color: 'bg-zinc-800 text-zinc-400 border-zinc-700' };
 };
 
-
-
 export const FileRow = ({ file, currentPrefix, onPreview, onShare, onRename, onDelete, onDownload }: FileRowProps) => {
     const { selectedFiles, toggleSelection } = useFileStore();
     const fileName = file.key.replace(currentPrefix, '');
@@ -39,7 +37,7 @@ export const FileRow = ({ file, currentPrefix, onPreview, onShare, onRename, onD
     const { type, color } = getFileType(fileName);
 
     return (
-        <TableRow className="group bg-black hover:bg-orange-950/30 border-zinc-800 transition-all border-l-2 border-l-transparent hover:border-l-orange-500">
+        <TableRow className="group bg-black hover:bg-orange-950/30 border-zinc-800 transition-all border-l-2 border-l-transparent hover:border-l-orange-500 active:scale-95 duration-100">
             <TableCell className="w-[50px]">
                 <Checkbox
                     checked={selectedFiles.has(file.key)}
@@ -64,20 +62,20 @@ export const FileRow = ({ file, currentPrefix, onPreview, onShare, onRename, onD
                 {formatBytes(file.size)}
             </TableCell>
             <TableCell className="text-right">
-                <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Button variant="ghost" size="icon" className="h-8 w-8 hover:text-blue-400 hover:bg-blue-400/10" onClick={() => onPreview(file.key)} title="Preview">
+                <div className="flex items-center justify-end gap-1">
+                    <Button variant="ghost" size="icon" className="h-8 w-8 text-zinc-500 hover:text-blue-400 hover:bg-blue-400/10 active:scale-95 transition-all duration-100" onClick={() => onPreview(file.key)} title="Preview">
                         <Eye className="w-4 h-4" />
                     </Button>
-                    <Button variant="ghost" size="icon" className="h-8 w-8 hover:text-green-400 hover:bg-green-400/10" onClick={() => onDownload(file.key)} title="Download">
+                    <Button variant="ghost" size="icon" className="h-8 w-8 text-zinc-500 hover:text-green-400 hover:bg-green-400/10 active:scale-95 transition-all duration-100" onClick={() => onDownload(file.key)} title="Download">
                         <Download className="w-4 h-4" />
                     </Button>
-                    <Button variant="ghost" size="icon" className="h-8 w-8 hover:text-orange-400 hover:bg-orange-400/10" onClick={() => onShare(file.key)} title="Share">
+                    <Button variant="ghost" size="icon" className="h-8 w-8 text-zinc-500 hover:text-orange-400 hover:bg-orange-400/10 active:scale-95 transition-all duration-100" onClick={() => onShare(file.key)} title="Share">
                         <Share2 className="w-4 h-4" />
                     </Button>
-                    <Button variant="ghost" size="icon" className="h-8 w-8 hover:text-yellow-400 hover:bg-yellow-400/10" onClick={() => onRename(file.key)} title="Rename">
+                    <Button variant="ghost" size="icon" className="h-8 w-8 text-zinc-500 hover:text-yellow-400 hover:bg-yellow-400/10 active:scale-95 transition-all duration-100" onClick={() => onRename(file.key)} title="Rename">
                         <Edit2 className="w-4 h-4" />
                     </Button>
-                    <Button variant="ghost" size="icon" className="h-8 w-8 hover:text-red-500 hover:bg-red-500/10" onClick={() => onDelete(file.key)} title="Delete">
+                    <Button variant="ghost" size="icon" className="h-8 w-8 text-zinc-500 hover:text-red-500 hover:bg-red-500/10 active:scale-95 transition-all duration-100" onClick={() => onDelete(file.key)} title="Delete">
                         <Trash2 className="w-4 h-4" />
                     </Button>
                 </div>

@@ -69,14 +69,14 @@ export const FileGrid = ({ files, folders, onPreview, onShare, onRename, onDelet
                 return (
                     <Card
                         key={folder}
-                        className="bg-zinc-900 hover:bg-zinc-800/80 cursor-pointer transition-all duration-200 border-zinc-800 hover:border-orange-500/50 hover:shadow-sm group"
+                        className="bg-zinc-900 hover:bg-zinc-800/80 cursor-pointer transition-all duration-200 border-zinc-800 hover:border-orange-500/50 hover:shadow-sm group active:scale-95"
                         onClick={() => handleFolderClick(folder)}
                     >
                         <CardContent className="flex flex-col items-center justify-center p-6 gap-3">
                             <div className="p-3 bg-blue-500/10 rounded-full group-hover:bg-blue-500/20 transition-colors">
                                 <FileIcon fileName="folder" isFolder={true} className="w-8 h-8" />
                             </div>
-                            <span className="font-medium text-sm truncate w-full text-center text-foreground/80 group-hover:text-foreground" title={relativeName}>
+                            <span className="font-medium text-sm truncate w-full text-center text-zinc-100 group-hover:text-white" title={relativeName}>
                                 {sanitize(relativeName)}
                             </span>
                         </CardContent>
@@ -92,11 +92,11 @@ export const FileGrid = ({ files, folders, onPreview, onShare, onRename, onDelet
                 return (
                     <Card
                         key={file.key}
-                        className={`group relative overflow-hidden cursor-pointer transition-all duration-200 hover:shadow-md bg-zinc-900 border-zinc-800 ${isSelected ? 'ring-2 ring-orange-500 border-orange-500 bg-orange-500/5' : 'hover:border-orange-500/50 hover:bg-zinc-800/80'
+                        className={`group relative overflow-hidden cursor-pointer transition-all duration-200 hover:shadow-md bg-zinc-900 border border-zinc-800 active:scale-95 ${isSelected ? 'ring-2 ring-orange-500 border-orange-500 bg-orange-500/5' : 'hover:border-orange-500/50 hover:bg-zinc-800/80'
                             }`}
                         onClick={() => toggleSelection(file.key)}
                     >
-                        <div className={`absolute top-2 left-2 z-10 ${isSelected ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'} transition-opacity`}>
+                        <div className="absolute top-2 left-2 z-10">
                             <Checkbox
                                 checked={isSelected}
                                 onCheckedChange={() => toggleSelection(file.key)}
@@ -125,8 +125,8 @@ export const FileGrid = ({ files, folders, onPreview, onShare, onRename, onDelet
 
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
-                                    <Button variant="ghost" size="icon" className="h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity" onClick={(e) => e.stopPropagation()}>
-                                        <MoreVertical className="w-4 h-4 text-zinc-400" />
+                                    <Button variant="ghost" size="icon" className="h-8 w-8 text-zinc-500 hover:text-zinc-200 active:scale-95 transition-all duration-100" onClick={(e) => e.stopPropagation()}>
+                                        <MoreVertical className="w-4 h-4" />
                                     </Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
