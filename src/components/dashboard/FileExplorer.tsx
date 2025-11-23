@@ -11,7 +11,7 @@ import { RenameModal } from '../modals/RenameModal';
 import { DeleteModal } from '../modals/DeleteModal';
 import { CorsHelpModal } from '../modals/CorsHelpModal';
 import { Button } from '../ui/button';
-import { LayoutGrid, List as ListIcon, RefreshCw } from 'lucide-react';
+import { LayoutGrid, List as ListIcon, RefreshCw, Download, Trash2 } from 'lucide-react';
 
 import { s3Service } from '../../services/s3Client';
 import { toast } from 'sonner';
@@ -28,7 +28,8 @@ export const FileExplorer = () => {
         currentPrefix,
         clearError,
         filterType,
-        searchQuery
+        searchQuery,
+        selectedFiles
     } = useFileStore();
 
     const [previewFile, setPreviewFile] = useState<string | null>(null);
@@ -140,6 +141,31 @@ export const FileExplorer = () => {
                     </>
                 )}
             </div>
+
+            {selectedFiles.size > 0 && (
+                <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 bg-zinc-900 border border-zinc-800 rounded-lg shadow-lg p-4 flex items-center gap-4 z-50 animate-in slide-in-from-bottom-5 fade-in duration-300">
+                    <span className="text-zinc-200 font-medium">{selectedFiles.size} selected</span>
+                    <div className="h-6 w-px bg-zinc-800" />
+                    <Button variant="ghost" size="sm" className="text-zinc-400 hover:text-white hover:bg-zinc-800" onClick={() => {
+                        // Implement bulk download logic here
+                        toast.info("Bulk download coming soon");
+                    }}>
+                        <Download className="w-4 h-4 mr-2" />
+                        Download
+                    </Button>
+                    <Button variant="ghost" size="sm" className="text-red-400 hover:text-red-300 hover:bg-red-500/10" onClick={() => {
+                        // Implement bulk delete logic here
+                        toast.info("Bulk delete coming soon");
+                    }}>
+                        <Trash2 className="w-4 h-4 mr-2" />
+                        Delete
+                    </Button>
+                    <div className="h-6 w-px bg-zinc-800" />
+                    <Button variant="ghost" size="sm" className="text-zinc-400 hover:text-white hover:bg-zinc-800" onClick={() => useFileStore.getState().clearSelection()}>
+                        Cancel
+                    </Button>
+                </div>
+            )}
 
             <ActionBar />
 

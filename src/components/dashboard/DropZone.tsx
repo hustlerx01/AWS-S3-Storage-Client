@@ -33,26 +33,19 @@ export const DropZone = () => {
     return (
         <div
             {...getRootProps()}
-            className={`border border-dashed rounded-xl flex flex-col items-center justify-center transition-all duration-300 w-full h-32
+            className={`border border-dashed rounded-xl flex flex-row items-center justify-start px-6 transition-all duration-300 w-full h-20
                 ${isDragActive
                     ? 'border-orange-500 bg-orange-500/5 scale-[1.01]'
-                    : 'border-zinc-800 bg-zinc-900/50 hover:border-orange-500 hover:bg-orange-500/5'
+                    : 'border-zinc-800 hover:border-orange-500 hover:bg-orange-500/5'
                 }
             `}
         >
             <input {...getInputProps()} />
-            <div className="flex flex-col items-center gap-3 text-zinc-400">
-                <div className={`p-4 rounded-full bg-zinc-800/50 ${isDragActive ? 'text-orange-500' : 'text-zinc-500'}`}>
-                    <UploadCloud className="w-8 h-8" />
-                </div>
-                <div className="space-y-1">
-                    <p className="text-lg font-medium text-zinc-200">
-                        {isDragActive ? 'Drop files now' : 'Drop files here or click to upload'}
-                    </p>
-                    <p className="text-sm text-zinc-400">
-                        Support for images, videos, audio, and documents
-                    </p>
-                </div>
+            <div className="flex flex-row items-center gap-3">
+                <UploadCloud className={`w-6 h-6 ${isDragActive ? 'text-orange-500' : 'text-zinc-400'}`} />
+                <p className="text-sm font-medium text-zinc-300">
+                    {isDragActive ? 'Drop files now' : 'Drop files here or click to upload'}
+                </p>
             </div>
         </div>
     );

@@ -1,6 +1,7 @@
 import { type S3File, useFileStore } from '../../stores/useFileStore';
 import { Card, CardContent, CardFooter } from '../ui/card';
-import { FileIcon, FolderIcon, MoreVertical, Download, Trash2, Copy, Share2, FileText, FileType2, Sheet, Video, Music, Archive } from 'lucide-react';
+import { MoreVertical, Download, Trash2, Copy, Share2 } from 'lucide-react';
+import { FileIcon } from '../ui/FileIcon';
 import { Button } from '../ui/button';
 import { Checkbox } from '../ui/checkbox';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
@@ -19,16 +20,7 @@ interface FileGridProps {
     onDownload: (key: string) => void;
 }
 
-const getFileIcon = (fileName: string) => {
-    const ext = fileName.split('.').pop()?.toLowerCase();
-    if (['pdf'].includes(ext || '')) return <FileText className="w-12 h-12 text-red-500" />;
-    if (['doc', 'docx'].includes(ext || '')) return <FileType2 className="w-12 h-12 text-blue-500" />;
-    if (['xls', 'xlsx', 'csv'].includes(ext || '')) return <Sheet className="w-12 h-12 text-green-500" />;
-    if (['mp4', 'webm', 'mov', 'avi'].includes(ext || '')) return <Video className="w-12 h-12 text-purple-500" />;
-    if (['mp3', 'wav', 'ogg'].includes(ext || '')) return <Music className="w-12 h-12 text-yellow-500" />;
-    if (['zip', 'rar', '7z', 'tar', 'gz'].includes(ext || '')) return <Archive className="w-12 h-12 text-orange-500" />;
-    return <FileIcon className="w-12 h-12 text-muted-foreground/50" />;
-};
+
 
 const FileThumbnail = ({ fileKey, fileName }: { fileKey: string, fileName: string }) => {
     const [url, setUrl] = useState<string | null>(null);
@@ -82,7 +74,7 @@ export const FileGrid = ({ files, folders, onPreview, onShare, onRename, onDelet
                     >
                         <CardContent className="flex flex-col items-center justify-center p-6 gap-3">
                             <div className="p-3 bg-blue-500/10 rounded-full group-hover:bg-blue-500/20 transition-colors">
-                                <FolderIcon className="w-8 h-8 text-blue-500 fill-blue-500/20" />
+                                <FileIcon fileName="folder" isFolder={true} className="w-8 h-8" />
                             </div>
                             <span className="font-medium text-sm truncate w-full text-center text-foreground/80 group-hover:text-foreground" title={relativeName}>
                                 {sanitize(relativeName)}
@@ -117,7 +109,7 @@ export const FileGrid = ({ files, folders, onPreview, onShare, onRename, onDelet
                                 <FileThumbnail fileKey={file.key} fileName={fileName} />
                             ) : (
                                 <div className="w-full h-full flex items-center justify-center">
-                                    {getFileIcon(fileName)}
+                                    <FileIcon fileName={fileName} className="w-12 h-12" />
                                 </div>
                             )}
                         </CardContent>

@@ -1,6 +1,8 @@
-import { type S3File } from '../../stores/useFileStore';
+import { type S3File, useFileStore } from '../../stores/useFileStore';
 import { TableCell, TableRow } from '../ui/table';
-import { FileIcon, FileText, FileType2, Sheet, Video, Music, Archive, Eye, Download, Share2, Edit2, Trash2 } from 'lucide-react';
+import { Eye, Download, Share2, Edit2, Trash2 } from 'lucide-react';
+import { FileIcon } from '../ui/FileIcon';
+import { Checkbox } from '../ui/checkbox';
 import { Button } from '../ui/button';
 import { formatBytes } from '../../lib/utils';
 import DOMPurify from 'dompurify';
@@ -28,27 +30,26 @@ const getFileType = (fileName: string) => {
     return { type: 'File', color: 'bg-zinc-800 text-zinc-400 border-zinc-700' };
 };
 
-const getFileIcon = (fileName: string) => {
-    const ext = fileName.split('.').pop()?.toLowerCase();
-    if (['pdf'].includes(ext || '')) return <FileText className="w-5 h-5 text-red-500" />;
-    if (['doc', 'docx'].includes(ext || '')) return <FileType2 className="w-5 h-5 text-blue-500" />;
-    if (['xls', 'xlsx', 'csv'].includes(ext || '')) return <Sheet className="w-5 h-5 text-green-500" />;
-    if (['mp4', 'webm', 'mov', 'avi'].includes(ext || '')) return <Video className="w-5 h-5 text-purple-500" />;
-    if (['mp3', 'wav', 'ogg'].includes(ext || '')) return <Music className="w-5 h-5 text-yellow-500" />;
-    if (['zip', 'rar', '7z', 'tar', 'gz'].includes(ext || '')) return <Archive className="w-5 h-5 text-orange-500" />;
-    return <FileIcon className="w-5 h-5 text-zinc-500" />;
-};
+
 
 export const FileRow = ({ file, currentPrefix, onPreview, onShare, onRename, onDelete, onDownload }: FileRowProps) => {
+    const { selectedFiles, toggleSelection } = useFileStore();
     const fileName = file.key.replace(currentPrefix, '');
     const sanitize = (name: string) => DOMPurify.sanitize(name);
     const { type, color } = getFileType(fileName);
 
     return (
-        <TableRow className="group hover:bg-zinc-900/50 border-zinc-800 transition-colors">
+        <TableRow className="group bg-black hover:bg-orange-950/30 border-zinc-800 transition-all border-l-2 border-l-transparent hover:border-l-orange-500">
+            <TableCell className="w-[50px]">
+                <Checkbox
+                    checked={selectedFiles.has(file.key)}
+                    onCheckedChange={() => toggleSelection(file.key)}
+                    onClick={(e) => e.stopPropagation()}
+                />
+            </TableCell>
             <TableCell className="font-medium">
                 <div className="flex items-center gap-3">
-                    {getFileIcon(fileName)}
+                    <FileIcon fileName={fileName} />
                     <span className="text-zinc-200 group-hover:text-white transition-colors">
                         {sanitize(fileName)}
                     </span>

@@ -21,12 +21,13 @@ export const Layout = ({ children }: LayoutProps) => {
 
                     <div className="flex items-center gap-4">
                         {credentials && (
-                            <div className="hidden md:flex items-center text-sm text-muted-foreground">
-                                <span className="px-2 py-1 bg-muted rounded-md border border-border">
+                            <div className="hidden md:flex items-center gap-3 text-sm">
+                                <span className="flex items-center gap-2 px-3 py-1 bg-black rounded-full border border-zinc-800 text-zinc-400">
+                                    <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.5)]" />
                                     {credentials.bucketName}
                                 </span>
-                                <span className="mx-2 text-muted-foreground/50">/</span>
-                                <span className="px-2 py-1 bg-muted rounded-md border border-border">
+                                <span className="flex items-center gap-2 px-3 py-1 bg-black rounded-full border border-zinc-800 text-zinc-400">
+                                    <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.5)]" />
                                     {credentials.region}
                                 </span>
                             </div>
