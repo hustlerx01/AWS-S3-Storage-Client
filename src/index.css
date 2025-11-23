@@ -65,5 +65,9 @@
   }
   body {
     @apply bg-background text-foreground;
+    background-color: #000000 !important;
+    color: #e4e4e7;
+    margin: 0;
+    padding: 0;
   }
 }

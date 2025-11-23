@@ -11,7 +11,7 @@ import { RenameModal } from '../modals/RenameModal';
 import { DeleteModal } from '../modals/DeleteModal';
 import { CorsHelpModal } from '../modals/CorsHelpModal';
 import { Button } from '../ui/button';
-import { LayoutGrid, List as ListIcon, RefreshCw, Download, Trash2 } from 'lucide-react';
+import { LayoutGrid, List as ListIcon, RefreshCw, Download, Trash2, Share2 } from 'lucide-react';
 
 import { s3Service } from '../../services/s3Client';
 import { toast } from 'sonner';
@@ -33,7 +33,7 @@ export const FileExplorer = () => {
     } = useFileStore();
 
     const [previewFile, setPreviewFile] = useState<string | null>(null);
-    const [shareFile, setShareFile] = useState<string | null>(null);
+    const [shareFiles, setShareFiles] = useState<string[]>([]);
     const [renameFile, setRenameFile] = useState<string | null>(null);
     const [deleteFile, setDeleteFile] = useState<string | null>(null);
 
@@ -116,7 +116,7 @@ export const FileExplorer = () => {
                                 files={filteredFiles}
                                 folders={folders}
                                 onPreview={setPreviewFile}
-                                onShare={setShareFile}
+                                onShare={(key) => setShareFiles([key])}
                                 onRename={setRenameFile}
                                 onDelete={setDeleteFile}
                                 onDownload={handleDownload}
@@ -126,7 +126,7 @@ export const FileExplorer = () => {
                                 files={filteredFiles}
                                 folders={folders}
                                 onPreview={setPreviewFile}
-                                onShare={setShareFile}
+                                onShare={(key) => setShareFiles([key])}
                                 onRename={setRenameFile}
                                 onDelete={setDeleteFile}
                                 onDownload={handleDownload}
@@ -153,6 +153,12 @@ export const FileExplorer = () => {
                         <Download className="w-4 h-4 mr-2" />
                         Download
                     </Button>
+                    <Button variant="ghost" size="sm" className="text-orange-400 hover:text-orange-300 hover:bg-orange-500/10" onClick={() => {
+                        setShareFiles(Array.from(selectedFiles));
+                    }}>
+                        <Share2 className="w-4 h-4 mr-2" />
+                        Share
+                    </Button>
                     <Button variant="ghost" size="sm" className="text-red-400 hover:text-red-300 hover:bg-red-500/10" onClick={() => {
                         // Implement bulk delete logic here
                         toast.info("Bulk delete coming soon");
@@ -175,9 +181,9 @@ export const FileExplorer = () => {
                 onClose={() => setPreviewFile(null)}
             />
             <ShareModal
-                isOpen={!!shareFile}
-                fileKey={shareFile}
-                onClose={() => setShareFile(null)}
+                isOpen={shareFiles.length > 0}
+                fileKeys={shareFiles}
+                onClose={() => setShareFiles([])}
             />
             <RenameModal
                 isOpen={!!renameFile}
@@ -193,6 +199,6 @@ export const FileExplorer = () => {
                 isOpen={!!error}
                 onClose={clearError}
             />
-        </div>
+        </div >
     );
 };

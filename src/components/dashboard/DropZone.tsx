@@ -33,16 +33,16 @@ export const DropZone = () => {
     return (
         <div
             {...getRootProps()}
-            className={`border border-dashed rounded-xl flex flex-row items-center justify-start px-6 transition-all duration-300 w-full h-20
+            className={`border border-dashed rounded-xl flex flex-row items-center justify-center px-6 transition-all duration-300 ease-in-out w-full h-20
                 ${isDragActive
-                    ? 'border-orange-500 bg-orange-500/5 scale-[1.01]'
-                    : 'border-zinc-800 hover:border-orange-500 hover:bg-orange-500/5'
+                    ? 'border-orange-500 bg-orange-500/10 scale-[1.02]'
+                    : 'border-zinc-800 bg-transparent opacity-70 hover:border-orange-500 hover:bg-orange-500/5 hover:opacity-100'
                 }
             `}
         >
             <input {...getInputProps()} />
             <div className="flex flex-row items-center gap-3">
-                <UploadCloud className={`w-6 h-6 ${isDragActive ? 'text-orange-500' : 'text-zinc-400'}`} />
+                <UploadCloud className={`w-6 h-6 transition-colors ${isDragActive ? 'text-orange-500' : 'text-zinc-400'}`} />
                 <p className="text-sm font-medium text-zinc-300">
                     {isDragActive ? 'Drop files now' : 'Drop files here or click to upload'}
                 </p>

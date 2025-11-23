@@ -25,9 +25,9 @@ export const FileList = ({ files, folders, onPreview, onShare, onRename, onDelet
     const sanitize = (name: string) => DOMPurify.sanitize(name);
 
     return (
-        <div className="border border-zinc-800 rounded-lg overflow-hidden bg-black">
+        <div className="border border-zinc-800 rounded-xl overflow-hidden bg-black">
             <Table>
-                <TableHeader className="bg-zinc-900">
+                <TableHeader className="bg-zinc-900/50 border-b border-zinc-800">
                     <TableRow className="border-zinc-800 hover:bg-transparent">
                         <TableHead className="w-[50px]">
                             <Checkbox

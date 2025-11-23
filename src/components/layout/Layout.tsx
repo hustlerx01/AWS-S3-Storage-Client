@@ -14,7 +14,7 @@ export const Layout = ({ children }: LayoutProps) => {
     const credentials = useAuthStore((state) => state.credentials);
 
     return (
-        <div className="min-h-screen flex flex-col bg-black text-zinc-100">
+        <div className="min-h-screen flex flex-col bg-black text-zinc-100 w-full">
             <header className="border-b border-zinc-800 bg-black/95 backdrop-blur supports-[backdrop-filter]:bg-black/60 sticky top-0 z-50">
                 <div className="container mx-auto flex h-14 max-w-screen-2xl items-center justify-between px-4">
                     <Logo />
