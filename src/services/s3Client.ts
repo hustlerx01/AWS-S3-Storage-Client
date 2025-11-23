@@ -189,7 +189,7 @@ export const s3Service = {
         }));
     },
 
-    getPresignedUrl: async (key: string, expiresIn = 900, contentType?: string) => {
+    getPresignedUrl: async (key: string, expiresIn = 900, contentType?: string, disposition: 'inline' | 'attachment' = 'inline') => {
         const { credentials } = useAuthStore.getState();
         if (!credentials) throw new Error("No credentials");
 
@@ -199,7 +199,7 @@ export const s3Service = {
         const command = new GetObjectCommand({
             Bucket: credentials.bucketName,
             Key: key,
-            ResponseContentDisposition: `inline; filename="${filename}"`,
+            ResponseContentDisposition: `${disposition}; filename="${filename}"`,
             ...(contentType && { ResponseContentType: contentType }),
         });
 

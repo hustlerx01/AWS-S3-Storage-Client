@@ -37,7 +37,7 @@ export const FileRow = ({ file, currentPrefix, onView, onShare, onRename, onDele
     const { type, color } = getFileType(fileName);
 
     return (
-        <TableRow className="group bg-black hover:bg-orange-950/30 border-zinc-800 transition-all border-l-2 border-l-transparent hover:border-l-orange-500 active:scale-95 duration-100">
+        <TableRow className="group bg-black hover:bg-orange-950/30 border-zinc-800 transition-all border-l-2 border-l-transparent hover:border-l-orange-500 duration-100">
             <TableCell className="w-[50px]">
                 <Checkbox
                     checked={selectedFiles.has(file.key)}

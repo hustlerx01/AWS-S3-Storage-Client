@@ -136,7 +136,7 @@ export const FileExplorer = () => {
 
     const handleDownload = async (key: string) => {
         try {
-            const url = await s3Service.getPresignedUrl(key);
+            const url = await s3Service.getPresignedUrl(key, 900, undefined, 'attachment');
             const link = document.createElement('a');
             link.href = url;
             link.download = key.split('/').pop() || 'download';
