@@ -1,6 +1,6 @@
 import { type S3File, useFileStore } from '../../stores/useFileStore';
 import { Card, CardContent, CardFooter } from '../ui/card';
-import { MoreVertical, Download, Trash2, Copy, Share2 } from 'lucide-react';
+import { MoreVertical, Download, Trash2, Copy, Share2, Eye } from 'lucide-react';
 import { FileIcon } from '../ui/FileIcon';
 import { Button } from '../ui/button';
 import { Checkbox } from '../ui/checkbox';
@@ -127,6 +127,19 @@ export const FileGrid = ({ files, folders, onView, onShare, onRename, onDelete, 
                                 <DropdownMenuTrigger asChild>
                                     <Button variant="ghost" size="icon" className="h-8 w-8 text-zinc-500 hover:text-orange-500 active:scale-95 transition-colors duration-100" onClick={(e) => e.stopPropagation()}>
                                         <MoreVertical className="w-4 h-4" />
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()} className="bg-zinc-900 border border-zinc-800 shadow-xl shadow-black">
+                                    <DropdownMenuItem onClick={() => onView(file.key)} className="text-zinc-300 hover:bg-zinc-800 hover:text-blue-400 cursor-pointer focus:bg-zinc-800 focus:text-blue-400">
+                                        <Eye className="w-4 h-4 mr-2" /> View
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => onDownload(file.key)} className="text-zinc-300 hover:bg-zinc-800 hover:text-orange-400 cursor-pointer focus:bg-zinc-800 focus:text-orange-400">
+                                        <Download className="w-4 h-4 mr-2" /> Download
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => onShare(file.key)} className="text-zinc-300 hover:bg-zinc-800 hover:text-orange-400 cursor-pointer focus:bg-zinc-800 focus:text-orange-400">
+                                        <Share2 className="w-4 h-4 mr-2" /> Share Link
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => onRename(file.key)} className="text-zinc-300 hover:bg-zinc-800 hover:text-orange-400 cursor-pointer focus:bg-zinc-800 focus:text-orange-400">
                                         <Copy className="w-4 h-4 mr-2" /> Rename
                                     </DropdownMenuItem>
                                     <DropdownMenuItem
