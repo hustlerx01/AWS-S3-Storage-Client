@@ -123,22 +123,22 @@ export const FileGrid = ({ files, folders, onPreview, onShare, onRename, onDelet
 
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
-                                    <Button variant="ghost" size="icon" className="h-8 w-8 text-zinc-400 hover:text-orange-500 active:scale-95 transition-all duration-100" onClick={(e) => e.stopPropagation()}>
+                                    <Button variant="ghost" size="icon" className="h-8 w-8 text-zinc-500 hover:text-orange-500 active:scale-95 transition-colors duration-100" onClick={(e) => e.stopPropagation()}>
                                         <MoreVertical className="w-4 h-4" />
                                     </Button>
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
-                                    <DropdownMenuItem onClick={() => onDownload(file.key)}>
+                                <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()} className="bg-zinc-900 border border-zinc-800 shadow-xl shadow-black">
+                                    <DropdownMenuItem onClick={() => onDownload(file.key)} className="text-zinc-300 hover:bg-zinc-800 hover:text-orange-400 cursor-pointer focus:bg-zinc-800 focus:text-orange-400">
                                         <Download className="w-4 h-4 mr-2" /> Download
                                     </DropdownMenuItem>
-                                    <DropdownMenuItem onClick={() => onShare(file.key)}>
+                                    <DropdownMenuItem onClick={() => onShare(file.key)} className="text-zinc-300 hover:bg-zinc-800 hover:text-orange-400 cursor-pointer focus:bg-zinc-800 focus:text-orange-400">
                                         <Share2 className="w-4 h-4 mr-2" /> Share Link
                                     </DropdownMenuItem>
-                                    <DropdownMenuItem onClick={() => onRename(file.key)}>
+                                    <DropdownMenuItem onClick={() => onRename(file.key)} className="text-zinc-300 hover:bg-zinc-800 hover:text-orange-400 cursor-pointer focus:bg-zinc-800 focus:text-orange-400">
                                         <Copy className="w-4 h-4 mr-2" /> Rename
                                     </DropdownMenuItem>
                                     <DropdownMenuItem
-                                        className="text-destructive focus:text-destructive"
+                                        className="text-zinc-300 hover:bg-red-900/30 hover:text-red-500 cursor-pointer focus:bg-red-900/30 focus:text-red-500"
                                         onClick={() => onDelete(file.key)}
                                     >
                                         <Trash2 className="w-4 h-4 mr-2" /> Delete

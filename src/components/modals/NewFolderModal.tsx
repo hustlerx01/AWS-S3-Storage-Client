@@ -55,7 +55,7 @@ export const NewFolderModal = ({ isOpen, onClose }: NewFolderModalProps) => {
                         />
                     </div>
                     <DialogFooter>
-                        <Button type="button" variant="outline" onClick={onClose}>
+                        <Button type="button" variant="ghost" onClick={onClose} className="bg-transparent text-zinc-400 hover:text-white hover:bg-zinc-800 border-none">
                             Cancel
                         </Button>
                         <Button type="submit" disabled={isLoading || !folderName.trim()}>
