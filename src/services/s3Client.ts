@@ -47,6 +47,9 @@ export const s3Service = {
 
         const parallelUploads3 = new Upload({
             client,
+            partSize: 1024 * 1024 * 5, // 5MB chunks
+            queueSize: 4, // 4 concurrent uploads
+            leavePartsOnError: false,
             params: {
                 Bucket: credentials.bucketName,
                 Key: key,

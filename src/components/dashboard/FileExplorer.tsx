@@ -16,6 +16,7 @@ import { LayoutGrid, List as ListIcon, RefreshCw, Download, Trash2, Share2 } fro
 
 import { s3Service } from '../../services/s3Client';
 import { toast } from 'sonner';
+import { S3File } from '../../stores/useFileStore';
 
 interface UploadState {
     fileName: string;
@@ -149,6 +150,20 @@ export const FileExplorer = () => {
         }
     };
 
+    const handlePreview = (file: string) => {
+        setPreviewFile(file);
+    };
+
+    const handleView = async (key: string) => {
+        try {
+            const url = await s3Service.getPresignedUrl(key, 3600, 'inline');
+            window.open(url, '_blank');
+        } catch (error) {
+            console.error("Failed to open file", error);
+            toast.error("Failed to open file");
+        }
+    };
+
     const filteredFiles = files.filter(file => {
         const name = file.key.split('/').pop()?.toLowerCase() || '';
         const matchesSearch = name.includes(searchQuery.toLowerCase());
@@ -209,20 +224,30 @@ export const FileExplorer = () => {
                                 files={filteredFiles}
                                 folders={folders}
                                 onPreview={setPreviewFile}
+                                onView={handleView}
                                 onShare={(key) => setShareFiles([key])}
                                 onRename={setRenameFile}
                                 onDelete={setDeleteFile}
                                 onDownload={handleDownload}
+                                onFolderClick={(folder) => {
+                                    useFileStore.getState().setCurrentPrefix(folder);
+                                }}
+                                currentPrefix={currentPrefix}
                             />
                         ) : (
                             <FileList
                                 files={filteredFiles}
                                 folders={folders}
                                 onPreview={setPreviewFile}
+                                onView={handleView}
                                 onShare={(key) => setShareFiles([key])}
                                 onRename={setRenameFile}
                                 onDelete={setDeleteFile}
                                 onDownload={handleDownload}
+                                onFolderClick={(folder) => {
+                                    useFileStore.getState().setCurrentPrefix(folder);
+                                }}
+                                currentPrefix={currentPrefix}
                             />
                         )}
 

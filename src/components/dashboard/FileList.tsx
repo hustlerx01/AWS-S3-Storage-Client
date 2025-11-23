@@ -9,17 +9,20 @@ interface FileListProps {
     files: S3File[];
     folders: string[];
     onPreview: (key: string) => void;
+    onView: (key: string) => void;
     onShare: (key: string) => void;
     onRename: (key: string) => void;
     onDelete: (key: string) => void;
     onDownload: (key: string) => void;
+    onFolderClick: (folder: string) => void;
+    currentPrefix: string;
 }
 
-export const FileList = ({ files, folders, onPreview, onShare, onRename, onDelete, onDownload }: FileListProps) => {
-    const { setPrefix, currentPrefix, selectedFiles, selectAll, clearSelection } = useFileStore();
+export const FileList = ({ files, folders, onPreview, onView, onShare, onRename, onDelete, onDownload, onFolderClick, currentPrefix }: FileListProps) => {
+    const { selectedFiles, selectAll, clearSelection } = useFileStore();
 
     const handleFolderClick = (folder: string) => {
-        setPrefix(folder);
+        onFolderClick(folder);
     };
 
     const sanitize = (name: string) => DOMPurify.sanitize(name);
@@ -74,6 +77,7 @@ export const FileList = ({ files, folders, onPreview, onShare, onRename, onDelet
                             file={file}
                             currentPrefix={currentPrefix}
                             onPreview={onPreview}
+                            onView={onView}
                             onShare={onShare}
                             onRename={onRename}
                             onDelete={onDelete}

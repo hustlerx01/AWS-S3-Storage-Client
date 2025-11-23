@@ -14,10 +14,13 @@ interface FileGridProps {
     files: S3File[];
     folders: string[];
     onPreview: (key: string) => void;
+    onView: (key: string) => void;
     onShare: (key: string) => void;
     onRename: (key: string) => void;
     onDelete: (key: string) => void;
     onDownload: (key: string) => void;
+    onFolderClick: (folder: string) => void;
+    currentPrefix: string;
 }
 
 const FileThumbnail = ({ fileKey, fileName }: { fileKey: string, fileName: string }) => {
@@ -49,11 +52,11 @@ const FileThumbnail = ({ fileKey, fileName }: { fileKey: string, fileName: strin
     );
 };
 
-export const FileGrid = ({ files, folders, onPreview, onShare, onRename, onDelete, onDownload }: FileGridProps) => {
-    const { setPrefix, currentPrefix, selectedFiles, toggleSelection, clearSelection } = useFileStore();
+export const FileGrid = ({ files, folders, onPreview, onView, onShare, onRename, onDelete, onDownload, onFolderClick, currentPrefix }: FileGridProps) => {
+    const { selectedFiles, toggleSelection, clearSelection } = useFileStore();
 
     const handleFolderClick = (folder: string) => {
-        setPrefix(folder);
+        onFolderClick(folder);
         clearSelection();
     };
 
@@ -128,6 +131,9 @@ export const FileGrid = ({ files, folders, onPreview, onShare, onRename, onDelet
                                     </Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()} className="bg-zinc-900 border border-zinc-800 shadow-xl shadow-black">
+                                    <DropdownMenuItem onClick={() => onView(file.key)} className="text-zinc-300 hover:bg-zinc-800 hover:text-blue-400 cursor-pointer focus:bg-zinc-800 focus:text-blue-400">
+                                        <Eye className="w-4 h-4 mr-2" /> View
+                                    </DropdownMenuItem>
                                     <DropdownMenuItem onClick={() => onPreview(file.key)} className="text-zinc-300 hover:bg-zinc-800 hover:text-blue-400 cursor-pointer focus:bg-zinc-800 focus:text-blue-400">
                                         <Eye className="w-4 h-4 mr-2" /> Preview
                                     </DropdownMenuItem>

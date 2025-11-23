@@ -128,8 +128,30 @@ export const PreviewModal = ({ isOpen, onClose, fileKey }: PreviewModalProps) =>
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
             <DialogContent className="max-w-4xl max-h-[90vh] h-[90vh] flex flex-col p-0 gap-0 bg-zinc-900 border-zinc-800">
-                <DialogHeader className="p-4 border-b border-zinc-800 bg-zinc-900/50">
-                    <DialogTitle className="truncate text-zinc-100">{fileKey?.split('/').pop()}</DialogTitle>
+                <DialogHeader className="p-4 border-b border-zinc-800 bg-zinc-900/50 flex flex-row items-center justify-between">
+                    <DialogTitle className="truncate text-zinc-100 max-w-[80%]">{fileKey?.split('/').pop()}</DialogTitle>
+                    <div className="flex items-center gap-2 mr-8">
+                        {url && (
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-8 w-8 text-zinc-400 hover:text-blue-400 hover:bg-blue-400/10"
+                                onClick={() => window.open(url, '_blank')}
+                                title="Open in New Tab"
+                            >
+                                <FileIcon className="w-4 h-4" />
+                            </Button>
+                        )}
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8 text-zinc-400 hover:text-green-400 hover:bg-green-400/10"
+                            onClick={handleDownload}
+                            title="Download"
+                        >
+                            <Download className="w-4 h-4" />
+                        </Button>
+                    </div>
                 </DialogHeader>
 
                 <div className="flex-1 overflow-hidden flex items-center justify-center bg-zinc-950 relative">
