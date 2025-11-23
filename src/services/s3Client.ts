@@ -38,7 +38,7 @@ export const s3Service = {
         };
     },
 
-    uploadFile: async (file: File, prefix: string, onProgress?: (progress: number) => void) => {
+    uploadFile: async (file: File, prefix: string, onProgress?: (progress: { loaded: number, total: number }) => void) => {
         const { credentials } = useAuthStore.getState();
         if (!credentials) throw new Error("No credentials");
 
@@ -57,7 +57,7 @@ export const s3Service = {
 
         parallelUploads3.on("httpUploadProgress", (progress) => {
             if (progress.loaded && progress.total && onProgress) {
-                onProgress(Math.round((progress.loaded / progress.total) * 100));
+                onProgress({ loaded: progress.loaded, total: progress.total });
             }
         });
 
@@ -165,6 +165,7 @@ export const s3Service = {
         const command = new GetObjectCommand({
             Bucket: credentials.bucketName,
             Key: key,
+            ResponseContentDisposition: 'inline',
         });
 
         return await getSignedUrl(client, command, { expiresIn });
