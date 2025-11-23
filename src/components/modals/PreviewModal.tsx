@@ -163,50 +163,66 @@ export const PreviewModal = ({ isOpen, onClose, fileKey }: PreviewModalProps) =>
                                     <audio controls className="w-full max-w-md" src={url}>
                                         Your browser does not support the audio tag.
                                     </audio>
-                                    language={getLanguage(fileKey || '')}
-                                    style={vscDarkPlus}
-                                    customStyle={{
-                                        margin: 0,
-                                        padding: '1rem',
-                                        background: '#1e1e1e',
-                                        fontSize: '0.875rem',
-                                        height: '100%'
-                                    }}
-                                    showLineNumbers={true}
-                                    >
-                                    {content}
-                                </SyntaxHighlighter>
                                 </div>
-                    )}
+                            )}
 
-                    {/* Unsupported File Type */}
-                    {fileType === 'other' && (
-                        <div className="flex flex-col items-center justify-center p-12 text-zinc-400 gap-4">
-                            <div className="w-20 h-20 rounded-full bg-zinc-800 flex items-center justify-center">
-                                <FileIcon className="w-10 h-10 text-zinc-500" />
-                            </div>
-                            <div className="text-center">
-                                <p className="text-lg font-medium text-zinc-300 mb-2">
-                                    Preview not available
-                                </p>
-                                <p className="text-sm text-zinc-500">
-                                    This file type cannot be previewed in the browser
-                                </p>
-                            </div>
-                            <Button
-                                variant="outline"
-                                className="mt-4 bg-transparent border-zinc-700 text-zinc-300 hover:bg-zinc-800 hover:text-white hover:border-orange-500"
-                                onClick={handleDownload}
-                            >
-                                <Download className="w-4 h-4 mr-2" />
-                                Download to view
-                            </Button>
+                            {/* PDF Preview */}
+                            {fileType === 'pdf' && url && (
+                                <iframe
+                                    src={url}
+                                    className="w-full h-full border-none"
+                                    title="PDF Preview"
+                                />
+                            )}
+
+                            {/* Code Preview */}
+                            {fileType === 'code' && content !== null && (
+                                <div className="w-full h-full overflow-auto bg-[#1e1e1e]">
+                                    <SyntaxHighlighter
+                                        language={getLanguage(fileKey || '')}
+                                        style={vscDarkPlus}
+                                        customStyle={{
+                                            margin: 0,
+                                            padding: '1rem',
+                                            background: '#1e1e1e',
+                                            fontSize: '0.875rem',
+                                            height: '100%'
+                                        }}
+                                        showLineNumbers={true}
+                                    >
+                                        {content}
+                                    </SyntaxHighlighter>
+                                </div>
+                            )}
+
+                            {/* Unsupported File Type */}
+                            {fileType === 'other' && (
+                                <div className="flex flex-col items-center justify-center p-12 text-zinc-400 gap-4">
+                                    <div className="w-20 h-20 rounded-full bg-zinc-800 flex items-center justify-center">
+                                        <FileIcon className="w-10 h-10 text-zinc-500" />
+                                    </div>
+                                    <div className="text-center">
+                                        <p className="text-lg font-medium text-zinc-300 mb-2">
+                                            Preview not available
+                                        </p>
+                                        <p className="text-sm text-zinc-500">
+                                            This file type cannot be previewed in the browser
+                                        </p>
+                                    </div>
+                                    <Button
+                                        variant="outline"
+                                        className="mt-4 bg-transparent border-zinc-700 text-zinc-300 hover:bg-zinc-800 hover:text-white hover:border-orange-500"
+                                        onClick={handleDownload}
+                                    >
+                                        <Download className="w-4 h-4 mr-2" />
+                                        Download to view
+                                    </Button>
+                                </div>
+                            )}
                         </div>
                     )}
                 </div>
-                    )}
-            </div>
-        </DialogContent>
-        </Dialog >
+            </DialogContent>
+        </Dialog>
     );
 };
