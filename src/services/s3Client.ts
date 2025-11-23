@@ -157,7 +157,7 @@ export const s3Service = {
         }));
     },
 
-    getPresignedUrl: async (key: string, expiresIn = 900) => {
+    getPresignedUrl: async (key: string, expiresIn = 900, contentType?: string) => {
         const { credentials } = useAuthStore.getState();
         if (!credentials) throw new Error("No credentials");
 
@@ -166,6 +166,7 @@ export const s3Service = {
             Bucket: credentials.bucketName,
             Key: key,
             ResponseContentDisposition: 'inline',
+            ...(contentType && { ResponseContentType: contentType }),
         });
 
         return await getSignedUrl(client, command, { expiresIn });

@@ -40,7 +40,8 @@ export const PreviewModal = ({ isOpen, onClose, fileKey }: PreviewModalProps) =>
                 // Video files
                 else if (['mp4', 'webm', 'mov', 'avi', 'mkv', 'flv'].includes(ext)) {
                     setFileType('video');
-                    const signedUrl = await s3Service.getPresignedUrl(fileKey);
+                    // Force video content type to ensure streaming works
+                    const signedUrl = await s3Service.getPresignedUrl(fileKey, 900, 'video/mp4');
                     setUrl(signedUrl);
                 }
                 // Audio files
@@ -52,7 +53,8 @@ export const PreviewModal = ({ isOpen, onClose, fileKey }: PreviewModalProps) =>
                 // PDF files
                 else if (ext === 'pdf') {
                     setFileType('pdf');
-                    const signedUrl = await s3Service.getPresignedUrl(fileKey);
+                    // Force application/pdf to ensure browser renders it
+                    const signedUrl = await s3Service.getPresignedUrl(fileKey, 900, 'application/pdf');
                     setUrl(signedUrl);
                 }
                 // Code/Text files
@@ -147,8 +149,14 @@ export const PreviewModal = ({ isOpen, onClose, fileKey }: PreviewModalProps) =>
                             {fileType === 'video' && url && (
                                 <video
                                     controls
+                                    autoPlay
+                                    preload="metadata"
                                     className="max-w-full max-h-full"
                                     src={url}
+                                    onError={(e) => {
+                                        console.error("Video playback error", e);
+                                        toast.error("Failed to play video. Try downloading it.");
+                                    }}
                                 >
                                     Your browser does not support the video tag.
                                 </video>
