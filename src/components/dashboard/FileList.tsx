@@ -1,7 +1,6 @@
-
 import { type S3File, useFileStore } from '../../stores/useFileStore';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
-import { FileIcon, FolderIcon, MoreVertical, Download, Trash2, Copy, Share2 } from 'lucide-react';
+import { FileIcon, FolderIcon, MoreVertical, Download, Trash2, Copy, Share2, FileText, FileType2, Sheet, Video, Music, Archive } from 'lucide-react';
 import { Button } from '../ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
 import { formatBytes } from '../../lib/utils';
@@ -16,6 +15,17 @@ interface FileListProps {
     onDelete: (key: string) => void;
     onDownload: (key: string) => void;
 }
+
+const getFileIcon = (fileName: string) => {
+    const ext = fileName.split('.').pop()?.toLowerCase();
+    if (['pdf'].includes(ext || '')) return <FileText className="w-4 h-4 text-red-500" />;
+    if (['doc', 'docx'].includes(ext || '')) return <FileType2 className="w-4 h-4 text-blue-500" />;
+    if (['xls', 'xlsx', 'csv'].includes(ext || '')) return <Sheet className="w-4 h-4 text-green-500" />;
+    if (['mp4', 'webm', 'mov', 'avi'].includes(ext || '')) return <Video className="w-4 h-4 text-purple-500" />;
+    if (['mp3', 'wav', 'ogg'].includes(ext || '')) return <Music className="w-4 h-4 text-yellow-500" />;
+    if (['zip', 'rar', '7z', 'tar', 'gz'].includes(ext || '')) return <Archive className="w-4 h-4 text-orange-500" />;
+    return <FileIcon className="w-4 h-4 text-muted-foreground" />;
+};
 
 export const FileList = ({ files, folders, onPreview, onShare, onRename, onDelete, onDownload }: FileListProps) => {
     const { setPrefix, currentPrefix } = useFileStore();
@@ -66,7 +76,7 @@ export const FileList = ({ files, folders, onPreview, onShare, onRename, onDelet
                                 onClick={() => onPreview(file.key)}
                             >
                                 <TableCell className="flex items-center gap-2">
-                                    <FileIcon className="w-4 h-4 text-muted-foreground" />
+                                    {getFileIcon(fileName)}
                                     {sanitize(fileName)}
                                 </TableCell>
                                 <TableCell>{formatBytes(file.size)}</TableCell>

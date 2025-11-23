@@ -1,11 +1,13 @@
 import { type S3File, useFileStore } from '../../stores/useFileStore';
 import { Card, CardContent, CardFooter } from '../ui/card';
-import { FileIcon, FolderIcon, MoreVertical, Download, Trash2, Copy, Share2 } from 'lucide-react';
+import { FileIcon, FolderIcon, MoreVertical, Download, Trash2, Copy, Share2, FileText, FileType2, Sheet, Video, Music, Archive } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Checkbox } from '../ui/checkbox';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
 import { formatBytes } from '../../lib/utils';
 import DOMPurify from 'dompurify';
+import { useState, useEffect } from 'react';
+import { s3Service } from '../../services/s3Client';
 
 interface FileGridProps {
     files: S3File[];
@@ -16,6 +18,46 @@ interface FileGridProps {
     onDelete: (key: string) => void;
     onDownload: (key: string) => void;
 }
+
+const getFileIcon = (fileName: string) => {
+    const ext = fileName.split('.').pop()?.toLowerCase();
+    if (['pdf'].includes(ext || '')) return <FileText className="w-12 h-12 text-red-500" />;
+    if (['doc', 'docx'].includes(ext || '')) return <FileType2 className="w-12 h-12 text-blue-500" />;
+    if (['xls', 'xlsx', 'csv'].includes(ext || '')) return <Sheet className="w-12 h-12 text-green-500" />;
+    if (['mp4', 'webm', 'mov', 'avi'].includes(ext || '')) return <Video className="w-12 h-12 text-purple-500" />;
+    if (['mp3', 'wav', 'ogg'].includes(ext || '')) return <Music className="w-12 h-12 text-yellow-500" />;
+    if (['zip', 'rar', '7z', 'tar', 'gz'].includes(ext || '')) return <Archive className="w-12 h-12 text-orange-500" />;
+    return <FileIcon className="w-12 h-12 text-muted-foreground/50" />;
+};
+
+const FileThumbnail = ({ fileKey, fileName }: { fileKey: string, fileName: string }) => {
+    const [url, setUrl] = useState<string | null>(null);
+
+    useEffect(() => {
+        let mounted = true;
+        const fetchUrl = async () => {
+            try {
+                const signedUrl = await s3Service.getPresignedUrl(fileKey);
+                if (mounted) setUrl(signedUrl);
+            } catch (error) {
+                console.error("Failed to load thumbnail", error);
+            }
+        };
+        fetchUrl();
+        return () => { mounted = false; };
+    }, [fileKey]);
+
+    if (!url) return <div className="w-full h-full bg-muted/20 animate-pulse" />;
+
+    return (
+        <img
+            src={url}
+            alt={fileName}
+            className="w-full h-full object-cover"
+            loading="lazy"
+        />
+    );
+};
 
 export const FileGrid = ({ files, folders, onPreview, onShare, onRename, onDelete, onDownload }: FileGridProps) => {
     const { setPrefix, currentPrefix, selectedFiles, toggleSelection, clearSelection } = useFileStore();
@@ -72,11 +114,11 @@ export const FileGrid = ({ files, folders, onPreview, onShare, onRename, onDelet
 
                         <CardContent className="p-0 aspect-square flex items-center justify-center bg-muted/20 group-hover:bg-muted/30 transition-colors" onClick={() => onPreview(file.key)}>
                             {isImage ? (
-                                <div className="w-full h-full flex items-center justify-center overflow-hidden">
-                                    <FileIcon className="w-12 h-12 text-muted-foreground/50" />
-                                </div>
+                                <FileThumbnail fileKey={file.key} fileName={fileName} />
                             ) : (
-                                <FileIcon className="w-12 h-12 text-muted-foreground/50" />
+                                <div className="w-full h-full flex items-center justify-center">
+                                    {getFileIcon(fileName)}
+                                </div>
                             )}
                         </CardContent>
                         <CardFooter className="p-3 flex justify-between items-center bg-card border-t">
