@@ -104,7 +104,7 @@ export const FileGrid = ({ files, folders, onView, onShare, onRename, onDelete, 
                             />
                         </div>
 
-                        <CardContent className="p-0 h-48 flex items-center justify-center bg-zinc-950/50 group-hover:bg-zinc-950/70 transition-colors" onClick={() => onView(file.key)}>
+                        <CardContent className="p-0 h-48 flex items-center justify-center bg-zinc-950/50 group-hover:bg-zinc-950/70 transition-colors" onClick={(e) => { e.stopPropagation(); onView(file.key); }}>
                             {isImage ? (
                                 <FileThumbnail fileKey={file.key} fileName={fileName} />
                             ) : (
@@ -130,21 +130,21 @@ export const FileGrid = ({ files, folders, onView, onShare, onRename, onDelete, 
                                     </Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()} className="bg-zinc-900 border border-zinc-800 shadow-xl shadow-black">
-                                    <DropdownMenuItem onClick={() => onView(file.key)} className="text-zinc-300 hover:bg-zinc-800 hover:text-blue-400 cursor-pointer focus:bg-zinc-800 focus:text-blue-400">
+                                    <DropdownMenuItem onClick={(e) => { e.stopPropagation(); onView(file.key); }} className="text-zinc-300 hover:bg-zinc-800 hover:text-blue-400 cursor-pointer focus:bg-zinc-800 focus:text-blue-400">
                                         <Eye className="w-4 h-4 mr-2" /> View
                                     </DropdownMenuItem>
-                                    <DropdownMenuItem onClick={() => onDownload(file.key)} className="text-zinc-300 hover:bg-zinc-800 hover:text-orange-400 cursor-pointer focus:bg-zinc-800 focus:text-orange-400">
+                                    <DropdownMenuItem onClick={(e) => { e.stopPropagation(); onDownload(file.key); }} className="text-zinc-300 hover:bg-zinc-800 hover:text-orange-400 cursor-pointer focus:bg-zinc-800 focus:text-orange-400">
                                         <Download className="w-4 h-4 mr-2" /> Download
                                     </DropdownMenuItem>
-                                    <DropdownMenuItem onClick={() => onShare(file.key)} className="text-zinc-300 hover:bg-zinc-800 hover:text-orange-400 cursor-pointer focus:bg-zinc-800 focus:text-orange-400">
+                                    <DropdownMenuItem onClick={(e) => { e.stopPropagation(); onShare(file.key); }} className="text-zinc-300 hover:bg-zinc-800 hover:text-orange-400 cursor-pointer focus:bg-zinc-800 focus:text-orange-400">
                                         <Share2 className="w-4 h-4 mr-2" /> Share Link
                                     </DropdownMenuItem>
-                                    <DropdownMenuItem onClick={() => onRename(file.key)} className="text-zinc-300 hover:bg-zinc-800 hover:text-orange-400 cursor-pointer focus:bg-zinc-800 focus:text-orange-400">
+                                    <DropdownMenuItem onClick={(e) => { e.stopPropagation(); onRename(file.key); }} className="text-zinc-300 hover:bg-zinc-800 hover:text-orange-400 cursor-pointer focus:bg-zinc-800 focus:text-orange-400">
                                         <Copy className="w-4 h-4 mr-2" /> Rename
                                     </DropdownMenuItem>
                                     <DropdownMenuItem
                                         className="text-zinc-300 hover:bg-red-900/30 hover:text-red-500 cursor-pointer focus:bg-red-900/30 focus:text-red-500"
-                                        onClick={() => onDelete(file.key)}
+                                        onClick={(e) => { e.stopPropagation(); onDelete(file.key); }}
                                     >
                                         <Trash2 className="w-4 h-4 mr-2" /> Delete
                                     </DropdownMenuItem>

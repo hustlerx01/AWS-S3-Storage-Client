@@ -120,9 +120,10 @@ export const FileExplorer = () => {
                     fetchFiles();
                 }, 1000);
 
-            } catch (error) {
+            } catch (error: any) {
                 console.error(`Failed to upload ${file.name}`, error);
-                toast.error(`Failed to upload ${file.name}`);
+                const errorMessage = error?.message || "Unknown error";
+                toast.error(`Failed to upload ${file.name}: ${errorMessage}`);
                 setUploads(prev => prev.filter(u => u.fileName !== file.name));
             }
         });
@@ -152,7 +153,7 @@ export const FileExplorer = () => {
 
     const handleView = async (key: string) => {
         try {
-            const url = await s3Service.getPresignedUrl(key, 3600, 'inline');
+            const url = await s3Service.getPresignedUrl(key, 3600);
             window.open(url, '_blank');
         } catch (error) {
             console.error("Failed to open file", error);

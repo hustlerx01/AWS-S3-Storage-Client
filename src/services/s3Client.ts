@@ -15,6 +15,24 @@ const getClient = (creds: Credentials) => {
     });
 };
 
+// Helper to get MIME type for common files often missed by browsers
+const getMimeType = (fileName: string) => {
+    const ext = fileName.split('.').pop()?.toLowerCase();
+    switch (ext) {
+        case 'apk': return 'application/vnd.android.package-archive';
+        case 'mkv': return 'video/x-matroska';
+        case 'dmg': return 'application/x-apple-diskimage';
+        case 'iso': return 'application/x-iso9660-image';
+        case 'exe': return 'application/x-msdownload';
+        case 'msi': return 'application/x-msi';
+        case 'deb': return 'application/vnd.debian.binary-package';
+        case 'rpm': return 'application/x-rpm';
+        case '7z': return 'application/x-7z-compressed';
+        case 'rar': return 'application/vnd.rar';
+        default: return undefined;
+    }
+};
+
 export const s3Service = {
     listFiles: async (prefix: string = "") => {
         const { credentials } = useAuthStore.getState();
@@ -45,16 +63,24 @@ export const s3Service = {
         const client = getClient(credentials);
         const key = `${prefix}${file.name}`;
 
+        // Dynamic part size calculation
+        // Min 5MB, Target ~100 parts for very large files to balance overhead vs reliability
+        // For 2.5GB: 2500MB / 100 = 25MB parts (100 parts) -> Good
+        // For 10MB: 10MB / 100 = 0.1MB -> Uses min 5MB (2 parts) -> Good
+        const minPartSize = 1024 * 1024 * 5; // 5MB
+        const calculatedPartSize = Math.ceil(file.size / 100);
+        const partSize = Math.max(minPartSize, calculatedPartSize);
+
         const parallelUploads3 = new Upload({
             client,
-            partSize: 1024 * 1024 * 5, // 5MB chunks
+            partSize,
             queueSize: 4, // 4 concurrent uploads
             leavePartsOnError: false,
             params: {
                 Bucket: credentials.bucketName,
                 Key: key,
                 Body: file,
-                ContentType: file.type || 'application/octet-stream',
+                ContentType: file.type || getMimeType(file.name) || 'application/octet-stream',
             },
         });
 

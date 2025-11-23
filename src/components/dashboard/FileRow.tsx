@@ -63,19 +63,19 @@ export const FileRow = ({ file, currentPrefix, onView, onShare, onRename, onDele
             </TableCell>
             <TableCell className="text-right">
                 <div className="flex items-center justify-end gap-1">
-                    <Button variant="ghost" size="icon" className="h-8 w-8 text-zinc-500 hover:text-blue-400 hover:bg-blue-400/10 active:scale-95 transition-all duration-100" onClick={() => onView(file.key)} title="View in New Tab">
+                    <Button variant="ghost" size="icon" className="h-8 w-8 text-zinc-500 hover:text-blue-400 hover:bg-blue-400/10 active:scale-95 transition-all duration-100" onClick={(e) => { e.stopPropagation(); onView(file.key); }} title="View in New Tab">
                         <ExternalLink className="w-4 h-4" />
                     </Button>
-                    <Button variant="ghost" size="icon" className="h-8 w-8 text-zinc-500 hover:text-green-400 hover:bg-green-400/10 active:scale-95 transition-all duration-100" onClick={() => onDownload(file.key)} title="Download">
+                    <Button variant="ghost" size="icon" className="h-8 w-8 text-zinc-500 hover:text-green-400 hover:bg-green-400/10 active:scale-95 transition-all duration-100" onClick={(e) => { e.stopPropagation(); onDownload(file.key); }} title="Download">
                         <Download className="w-4 h-4" />
                     </Button>
-                    <Button variant="ghost" size="icon" className="h-8 w-8 text-zinc-500 hover:text-orange-400 hover:bg-orange-400/10 active:scale-95 transition-all duration-100" onClick={() => onShare(file.key)} title="Share">
+                    <Button variant="ghost" size="icon" className="h-8 w-8 text-zinc-500 hover:text-orange-400 hover:bg-orange-400/10 active:scale-95 transition-all duration-100" onClick={(e) => { e.stopPropagation(); onShare(file.key); }} title="Share">
                         <Share2 className="w-4 h-4" />
                     </Button>
-                    <Button variant="ghost" size="icon" className="h-8 w-8 text-zinc-500 hover:text-yellow-400 hover:bg-yellow-400/10 active:scale-95 transition-all duration-100" onClick={() => onRename(file.key)} title="Rename">
+                    <Button variant="ghost" size="icon" className="h-8 w-8 text-zinc-500 hover:text-yellow-400 hover:bg-yellow-400/10 active:scale-95 transition-all duration-100" onClick={(e) => { e.stopPropagation(); onRename(file.key); }} title="Rename">
                         <Edit2 className="w-4 h-4" />
                     </Button>
-                    <Button variant="ghost" size="icon" className="h-8 w-8 text-zinc-500 hover:text-red-500 hover:bg-red-500/10 active:scale-95 transition-all duration-100" onClick={() => onDelete(file.key)} title="Delete">
+                    <Button variant="ghost" size="icon" className="h-8 w-8 text-zinc-500 hover:text-red-500 hover:bg-red-500/10 active:scale-95 transition-all duration-100" onClick={(e) => { e.stopPropagation(); onDelete(file.key); }} title="Delete">
                         <Trash2 className="w-4 h-4" />
                     </Button>
                 </div>
