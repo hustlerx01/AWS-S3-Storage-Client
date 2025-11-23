@@ -51,7 +51,7 @@ export const s3Service = {
                 Bucket: credentials.bucketName,
                 Key: key,
                 Body: file,
-                ContentType: file.type,
+                ContentType: file.type || 'application/octet-stream',
             },
         });
 

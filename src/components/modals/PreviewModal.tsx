@@ -38,7 +38,7 @@ export const PreviewModal = ({ isOpen, onClose, fileKey }: PreviewModalProps) =>
                     setUrl(signedUrl);
                 }
                 // Video files
-                else if (['mp4', 'webm', 'mov', 'avi', 'mkv', 'flv'].includes(ext)) {
+                else if (['mp4', 'webm', 'mov', 'avi', 'flv'].includes(ext)) {
                     setFileType('video');
                     // Force video content type to ensure streaming works
                     const signedUrl = await s3Service.getPresignedUrl(fileKey, 900, 'video/mp4');
@@ -222,14 +222,24 @@ export const PreviewModal = ({ isOpen, onClose, fileKey }: PreviewModalProps) =>
                                             This file type cannot be previewed in the browser
                                         </p>
                                     </div>
-                                    <Button
-                                        variant="outline"
-                                        className="mt-4 bg-transparent border-zinc-700 text-zinc-300 hover:bg-zinc-800 hover:text-white hover:border-orange-500"
-                                        onClick={handleDownload}
-                                    >
-                                        <Download className="w-4 h-4 mr-2" />
-                                        Download to view
-                                    </Button>
+                                    <div className="flex gap-3 mt-4">
+                                        <Button
+                                            variant="outline"
+                                            className="bg-transparent border-zinc-700 text-zinc-300 hover:bg-zinc-800 hover:text-white hover:border-orange-500"
+                                            onClick={() => window.open(url || '', '_blank')}
+                                        >
+                                            <FileIcon className="w-4 h-4 mr-2" />
+                                            Open in New Tab
+                                        </Button>
+                                        <Button
+                                            variant="outline"
+                                            className="bg-transparent border-zinc-700 text-zinc-300 hover:bg-zinc-800 hover:text-white hover:border-orange-500"
+                                            onClick={handleDownload}
+                                        >
+                                            <Download className="w-4 h-4 mr-2" />
+                                            Download to view
+                                        </Button>
+                                    </div>
                                 </div>
                             )}
                         </div>
