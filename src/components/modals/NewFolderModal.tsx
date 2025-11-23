@@ -45,7 +45,7 @@ export const NewFolderModal = ({ isOpen, onClose }: NewFolderModalProps) => {
                 </DialogHeader>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="space-y-2">
-                        <Label htmlFor="name">Folder Name</Label>
+                        <Label htmlFor="name" className="text-zinc-400">Folder Name</Label>
                         <Input
                             id="name"
                             value={folderName}

@@ -33,10 +33,10 @@ export const DropZone = () => {
     return (
         <div
             {...getRootProps()}
-            className={`border-2 border-dashed rounded-xl flex flex-col items-center justify-center transition-all duration-300 w-full h-48
+            className={`border border-dashed rounded-xl flex flex-col items-center justify-center transition-all duration-300 w-full h-32
                 ${isDragActive
                     ? 'border-orange-500 bg-orange-500/5 scale-[1.01]'
-                    : 'border-zinc-700 hover:border-orange-500 hover:bg-orange-500/5'
+                    : 'border-zinc-800 bg-zinc-900/50 hover:border-orange-500 hover:bg-orange-500/5'
                 }
             `}
         >

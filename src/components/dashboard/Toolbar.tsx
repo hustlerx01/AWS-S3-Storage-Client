@@ -60,16 +60,7 @@ export const Toolbar = () => {
                 </div>
             </div>
 
-            <div className="flex items-center gap-2">
-                <Button
-                    variant="outline"
-                    onClick={() => setIsNewFolderOpen(true)}
-                    className="border-zinc-700 bg-transparent text-zinc-300 hover:bg-zinc-800 hover:text-orange-500 hover:border-orange-500/50"
-                >
-                    <FolderPlus className="w-4 h-4 mr-2 text-orange-500" />
-                    New Folder
-                </Button>
-            </div>
+
 
             <NewFolderModal
                 isOpen={isNewFolderOpen}

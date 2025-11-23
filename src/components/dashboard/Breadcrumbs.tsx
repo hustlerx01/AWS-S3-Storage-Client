@@ -20,11 +20,10 @@ export const Breadcrumbs = () => {
             <BreadcrumbList>
                 <BreadcrumbItem>
                     <BreadcrumbLink
-                        className="cursor-pointer flex items-center gap-1"
+                        className="cursor-pointer flex items-center gap-1 hover:text-orange-500 transition-colors"
                         onClick={() => setPrefix('')}
                     >
                         <Home className="w-4 h-4" />
-                        Bucket
                     </BreadcrumbLink>
                 </BreadcrumbItem>
 
@@ -38,7 +37,7 @@ export const Breadcrumbs = () => {
                                     <BreadcrumbPage>{part}</BreadcrumbPage>
                                 ) : (
                                     <BreadcrumbLink
-                                        className="cursor-pointer"
+                                        className="cursor-pointer hover:text-orange-500 transition-colors"
                                         onClick={() => handleNavigate(index)}
                                     >
                                         {part}
