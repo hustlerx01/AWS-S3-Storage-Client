@@ -14,7 +14,7 @@ export const Layout = ({ children }: LayoutProps) => {
     return (
         <div className="min-h-screen flex flex-col bg-background">
             <header className="border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
-                <div className="container flex h-14 max-w-screen-2xl items-center justify-between px-4">
+                <div className="container mx-auto flex h-14 max-w-screen-2xl items-center justify-between px-4">
                     <div className="flex items-center gap-2 font-bold text-xl">
                         <div className="p-1.5 bg-primary rounded-md">
                             <Cloud className="w-5 h-5 text-primary-foreground" />
@@ -43,7 +43,7 @@ export const Layout = ({ children }: LayoutProps) => {
                 </div>
             </header>
 
-            <main className="flex-1 container max-w-screen-2xl p-4 md:p-8">
+            <main className="flex-1 container mx-auto max-w-screen-2xl p-4 md:p-8">
                 {children}
             </main>
         </div>
