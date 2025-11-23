@@ -12,6 +12,9 @@ const getClient = (creds: Credentials) => {
             accessKeyId: creds.accessKeyId,
             secretAccessKey: creds.secretAccessKey,
         },
+        // Prevent SDK from auto-adding checksums (CRC32) which can cause mismatches in multipart uploads
+        requestChecksumCalculation: "WHEN_REQUIRED",
+        responseChecksumValidation: "WHEN_REQUIRED",
     });
 };
 
