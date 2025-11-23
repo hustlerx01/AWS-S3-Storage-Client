@@ -86,25 +86,12 @@ export const FileGrid = ({ files, folders, onPreview, onShare, onRename, onDelet
 
             {files.map((file) => {
                 const fileName = file.key.replace(currentPrefix, '');
-                const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(fileName);
-                const isSelected = selectedFiles.has(file.key);
-
-                return (
-                    <Card
-                        key={file.key}
-                        className={`group relative overflow-hidden cursor-pointer transition-all duration-200 hover:shadow-md bg-zinc-900 border border-zinc-800 active:scale-95 ${isSelected ? 'ring-2 ring-orange-500 border-orange-500 bg-orange-500/5' : 'hover:border-orange-500/50 hover:bg-zinc-800/80'
-                            }`}
-                        onClick={() => toggleSelection(file.key)}
-                    >
-                        <div className="absolute top-2 left-2 z-10">
-                            <Checkbox
-                                checked={isSelected}
                                 onCheckedChange={() => toggleSelection(file.key)}
                                 onClick={(e) => e.stopPropagation()}
                             />
                         </div>
 
-                        <CardContent className="p-0 aspect-square flex items-center justify-center bg-muted/20 group-hover:bg-muted/30 transition-colors" onClick={() => onPreview(file.key)}>
+                        <CardContent className="p-0 h-48 flex items-center justify-center bg-zinc-950/50 group-hover:bg-zinc-950/70 transition-colors" onClick={() => onPreview(file.key)}>
                             {isImage ? (
                                 <FileThumbnail fileKey={file.key} fileName={fileName} />
                             ) : (
@@ -113,19 +100,19 @@ export const FileGrid = ({ files, folders, onPreview, onShare, onRename, onDelet
                                 </div>
                             )}
                         </CardContent>
-                        <CardFooter className="p-3 flex justify-between items-center bg-card border-t border-zinc-800">
+                        <CardFooter className="p-3 flex justify-between items-center bg-transparent border-t border-zinc-800">
                             <div className="flex flex-col overflow-hidden">
                                 <span className="text-sm font-medium truncate w-24 text-zinc-100" title={fileName}>
                                     {sanitize(fileName)}
                                 </span>
-                                <span className="text-xs text-zinc-400">
+                                <span className="text-xs text-zinc-500">
                                     {formatBytes(file.size)}
                                 </span>
                             </div>
 
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
-                                    <Button variant="ghost" size="icon" className="h-8 w-8 text-zinc-500 hover:text-zinc-200 active:scale-95 transition-all duration-100" onClick={(e) => e.stopPropagation()}>
+                                    <Button variant="ghost" size="icon" className="h-8 w-8 text-zinc-400 hover:text-orange-500 active:scale-95 transition-all duration-100" onClick={(e) => e.stopPropagation()}>
                                         <MoreVertical className="w-4 h-4" />
                                     </Button>
                                 </DropdownMenuTrigger>
@@ -148,7 +135,7 @@ export const FileGrid = ({ files, folders, onPreview, onShare, onRename, onDelet
                                 </DropdownMenuContent>
                             </DropdownMenu>
                         </CardFooter>
-                    </Card>
+                    </Card >
                 );
             })}
         </div >
