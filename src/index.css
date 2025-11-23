@@ -63,11 +63,14 @@
   * {
     @apply border-border;
   }
-  body {
+
+  body,
+  #root {
     @apply bg-background text-foreground;
     background-color: #000000 !important;
-    color: #e4e4e7;
+    color: #e4e4e7 !important;
     margin: 0;
     padding: 0;
+    min-height: 100vh;
   }
 }

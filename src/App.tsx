@@ -13,7 +13,7 @@ function App() {
   }, [loadFromStorage]);
 
   return (
-    <>
+    <div className="min-h-screen bg-black text-zinc-200 overflow-x-hidden">
       {isAuthenticated ? (
         <Layout>
           <FileExplorer />
@@ -22,7 +22,7 @@ function App() {
         <ConnectionForm />
       )}
       <Toaster />
-    </>
+    </div>
   );
 }
 
