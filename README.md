@@ -5,7 +5,7 @@ AeroVault is a modern, secure, and serverless React application for managing you
 ## Features
 
 *   **Serverless Architecture:** Connects directly to AWS S3 using the AWS SDK for JavaScript v3.
-*   **Secure Authentication:** Stores AWS credentials locally (encrypted) and never sends them to a third-party server.
+*   **Local credentials:** AWS credentials stay in the browser (localStorage if you choose "remember me", otherwise sessionStorage) and are only sent to AWS. They are obfuscated with AES using a key built into the app, which is not real protection (see Security note).
 *   **File Management:** Upload, download, rename, delete, and copy files and folders.
 *   **Drag & Drop Upload:** Easy file uploading with progress tracking.
 *   **File Previews:** Preview images and code files (with syntax highlighting) directly in the app.
@@ -22,8 +22,8 @@ AeroVault is a modern, secure, and serverless React application for managing you
 
 1.  Clone the repository:
     ```bash
-    git clone https://github.com/yourusername/aerovault.git
-    cd aerovault
+    git clone https://github.com/hustlerx01/AWS-S3-Storage-Client.git
+    cd AWS-S3-Storage-Client
     ```
 
 2.  Install dependencies:
@@ -106,9 +106,26 @@ You must enable Cross-Origin Resource Sharing (CORS) on your bucket to allow the
 3.  Click **Connect**.
 4.  You can now manage your files!
 
-## Security Note
+## Security note
 
-AeroVault stores your AWS credentials in your browser's LocalStorage or SessionStorage (encrypted with a basic algorithm). **Do not use this application on public or shared computers.** Always disconnect when you are finished.
+AeroVault stores your AWS credentials in the browser's localStorage or sessionStorage, AES-encrypted with CryptoJS using a static key that ships in the JavaScript bundle (`src/services/cryptoUtils.ts`). Anyone who can read the page's storage and the bundle can decrypt them, so treat this as obfuscation, not encryption.
+
+- Use an IAM user scoped to one bucket (policy above). Never use root or admin keys.
+- Prefer short-lived credentials, and delete the access key when you're done.
+- **Do not use this app on public or shared computers.** Click Disconnect when you're finished; it clears both storages.
+
+## Build check
+```bash
+npm ci
+npm run build    # tsc -b && vite build; passes (Vite warns that one chunk is over 500 kB)
+```
+
+## Limitations
+- No automated tests yet. `npm run build` (type check plus bundle) is the only check.
+- `npm run lint` currently reports 6 errors (4 `no-explicit-any`, 2 `react-refresh/only-export-components`). They are style rules and do not break the build.
+- `AllowedOrigins: ["*"]` in the sample CORS config is for local testing only.
+- The sample IAM policy includes `s3:PutObjectAcl`, but the app code never sets ACLs, so you can drop it.
+- Large uploads go straight from the browser. There's no server-side size or type check.
 
 ## Technologies Used
 
@@ -120,3 +137,7 @@ AeroVault stores your AWS credentials in your browser's LocalStorage or SessionS
 *   Zustand (State Management)
 *   React Router DOM
 *   Lucide React (Icons)
+
+## License
+
+MIT, see [LICENSE](LICENSE).
