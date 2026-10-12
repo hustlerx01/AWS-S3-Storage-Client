@@ -114,6 +114,9 @@ AeroVault stores your AWS credentials in the browser's localStorage or sessionSt
 - Prefer short-lived credentials, and delete the access key when you're done.
 - **Do not use this app on public or shared computers.** Click Disconnect when you're finished; it clears both storages.
 
+### Security limitations
+- **Static encryption key (known demo limitation).** `SECRET_KEY` in `src/services/cryptoUtils.ts` is hard-coded and public in this repo and in every built bundle. It is a demo shortcut, not a secret. A real deployment should not keep long-lived AWS keys in the browser at all: use short-lived credentials (Cognito identity pool or STS), and keep any server-side key in AWS KMS or an environment secret, never in source.
+
 ## Build check
 ```bash
 npm ci
